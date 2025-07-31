@@ -1,9 +1,0 @@
-{
-    "text.autoconfig.audioimprovements.title": "Audio Improvements Mod Settings",
-
-    "text.autoconfig.audioimprovements.option.fadeMusicWhenMusicDiscPlaying": "Prevent Music Clash",
-    "text.autoconfig.audioimprovements.option.fadeMusicWhenMusicDiscPlaying.@Tooltip[0]": "Fades out the regular music when",
-    "text.autoconfig.audioimprovements.option.fadeMusicWhenMusicDiscPlaying.@Tooltip[1]": "a music disc is playing near you",
-    "text.autoconfig.audioimprovements.option.monoMusicDiscs": "Mono Audio (Music Discs)",
-    "text.autoconfig.audioimprovements.option.monoOther": "Mono Audio (Other Sounds)"
-}

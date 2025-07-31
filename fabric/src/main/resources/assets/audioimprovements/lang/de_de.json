@@ -1,0 +1,9 @@
+{
+    "text.autoconfig.audioimprovements.title": "Audio Improvements Einstellungen",
+
+    "text.autoconfig.audioimprovements.option.fadeMusicWhenMusicDiscPlaying": "Musikkonflikte Vermeiden",
+    "text.autoconfig.audioimprovements.option.fadeMusicWhenMusicDiscPlaying.@Tooltip[0]": "Blendet die reguläre Musik aus, wenn",
+    "text.autoconfig.audioimprovements.option.fadeMusicWhenMusicDiscPlaying.@Tooltip[1]": "eine Schallplatte in deiner Nähe spielt",
+    "text.autoconfig.audioimprovements.option.monoMusicDiscs": "Mono Audio (Schallplatten)",
+    "text.autoconfig.audioimprovements.option.monoOther": "Mono Audio (Andere Geräusche)"
+}
