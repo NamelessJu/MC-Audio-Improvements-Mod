@@ -1,13 +1,15 @@
 {
     "required": true,
-    "package": "namelessju.audioimprovements.mixins",
+    "package": "namelessju.audioimprovements.common.mixins",
     "compatibilityLevel": "JAVA_21",
     "client": [
         "ClientLevelMixin",
         "MinecraftMixin",
-        "MusicTrackerMixin",
+        "MusicManagerMixin",
+        "OptionsSubScreenAccessor",
         "SoundChannelMixin",
-        "SoundSystemMixin"
+        "SoundEngineMixin",
+        "SoundOptionsScreenMixin"
     ],
     "injectors": {
         "defaultRequire": 1

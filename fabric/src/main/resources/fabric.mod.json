@@ -16,9 +16,11 @@
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-            "namelessju.audioimprovements.AudioImprovements"
+            "namelessju.audioimprovements.fabric.AudioImprovementsFabric"
         ],
-		"modmenu": [ "namelessju.audioimprovements.ModMenuApiImplementation" ]
+		"modmenu": [
+			"namelessju.audioimprovements.fabric.ModMenuApiImpl"
+		]
 	},
 	"mixins": [
 		{
@@ -30,7 +32,6 @@
 		"fabricloader": ">=0.16.14",
 		"minecraft": "~1.21.8",
 		"java": ">=21",
-		"fabric-api": "*",
-		"cloth-config": ">=19.0.146"
+		"fabric-api": "*"
 	}
 }

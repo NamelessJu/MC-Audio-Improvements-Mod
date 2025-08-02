@@ -18,7 +18,7 @@ version = mod_version
 group = mod_group_id
 
 repositories {
-    maven { url "https://maven.shedaniel.me/" }
+
 }
 
 base {
@@ -88,7 +88,7 @@ configurations {
 }
 
 dependencies {
-    implementation("me.shedaniel.cloth:cloth-config-neoforge:$project.clothconfig_version")
+
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -103,8 +103,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description        : mod_description,
-            clothconfig_version    : clothconfig_version
+            mod_description        : mod_description
     ]
     inputs.properties replaceProperties
     expand replaceProperties
