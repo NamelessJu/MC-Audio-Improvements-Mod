@@ -2,6 +2,8 @@ package namelessju.audioimprovements.common.gui;
 
 import namelessju.audioimprovements.common.AudioImprovements;
 import namelessju.audioimprovements.common.ConfigImpl;
+import namelessju.audioimprovements.common.data.MusicFrequencyValue;
+import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -13,6 +15,10 @@ public class ConfigScreen extends Screen
     
     public final HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this);
     private ConfigList list;
+    
+    private ValueListSlider<MusicFrequencyValue> musicFrequencyMinSlider;
+    private ValueListSlider<MusicFrequencyValue> musicFrequencyMaxSlider;
+    private CycleButton<Boolean> musicFrequencyAffectMenuButton;
     
     public ConfigScreen(Screen parent, ConfigImpl config)
     {
@@ -27,15 +33,80 @@ public class ConfigScreen extends Screen
         layout.addTitleHeader(this.title, this.font);
         list = layout.addToContents(new ConfigList(minecraft, this));
         
-        list.addFullWidth(config.monoMusicDiscs.createWidget(0, 0, 0));
-        list.addFullWidth(config.monoOther.createWidget(0, 0, 0));
-        list.addFullWidth(config.preventMusicClash.createWidget(0, 0, 0));
-        list.addFullWidth(config.overrideMusicFrequency.createWidget(0, 0, 0));
+        list.addSection(Component.translatable(AudioImprovements.MOD_ID + ".config.section.mono"));
+        list.addTwoColumns(
+            config.monoMusicDiscs.createButton(0, 0, 0, null),
+            config.monoNoteBlocks.createButton(0, 0, 0, null)
+        );
+        list.addTwoColumns(
+            config.monoWeather.createButton(0, 0, 0, null),
+            config.monoBlocks.createButton(0, 0, 0, null)
+        );
+        list.addTwoColumns(
+            config.monoHostile.createButton(0, 0, 0, null),
+            config.monoNeutral.createButton(0, 0, 0, null)
+        );
+        list.addTwoColumns(
+            config.monoPlayers.createButton(0, 0, 0, null),
+            config.monoAmbient.createButton(0, 0, 0, null)
+        );
         
-        layout.addToFooter(WidgetBuilder.buildDoneButton(this));
+        list.addSection(Component.translatable(AudioImprovements.MOD_ID + ".config.section.music"));
+        list.addFullWidth(config.fadeMusicWhenMusicDiscPlaying.createButton(0, 0, 0, null));
+        list.addFullWidth(config.fadeMusicWhenNoteBlockPlaying.createButton(0, 0, 0, null));
+        IntegerSlider musicFadeOutSlider, musicFadeInSlider;
+        list.addTwoColumns(
+            musicFadeOutSlider = config.musicFadeOutSeconds.createSlider(0, 0, 0, null),
+            musicFadeInSlider = config.musicFadeInSeconds.createSlider(0, 0, 0, null)
+        );
+        musicFadeOutSlider.suffixComponent = Component.translatable("audioimprovements.time.seconds");
+        musicFadeOutSlider.updateMessage();
+        musicFadeInSlider.suffixComponent = musicFadeOutSlider.suffixComponent;
+        musicFadeInSlider.updateMessage();
+        
+        list.addFullWidth(config.preventMusicRepeat.createButton(0, 0, 0, null));
+        
+        list.addFullWidth(config.customMusicFrequency.createButton(0, 0, 0,
+            enabled -> updateMusicFrequencyWidgets()
+        ));
+        
+        musicFrequencyMinSlider = MusicFrequencyValue.createConfigSlider(config.musicFrequencyMinTicks,
+            (index, value) -> {
+                if (value.ticks > config.musicFrequencyMaxTicks.getValue())
+                {
+                    config.musicFrequencyMaxTicks.setValue(value.ticks);
+                    musicFrequencyMaxSlider.setIndex(index);
+                }
+            }
+        );
+        musicFrequencyMaxSlider = MusicFrequencyValue.createConfigSlider(config.musicFrequencyMaxTicks,
+            (index, value) -> {
+                if (value.ticks < config.musicFrequencyMinTicks.getValue())
+                {
+                    config.musicFrequencyMinTicks.setValue(value.ticks);
+                    musicFrequencyMinSlider.setIndex(index);
+                }
+            }
+        );
+        list.addFullWidth(musicFrequencyMinSlider);
+        list.addFullWidth(musicFrequencyMaxSlider);
+        
+        list.addFullWidth(musicFrequencyAffectMenuButton = config.musicFrequencyAffectMenu.createButton(0, 0, 0, null));
+        
+        updateMusicFrequencyWidgets();
+        
+        layout.addToFooter(WidgetFactory.buildDoneButton(this));
         
         this.layout.visitWidgets(this::addRenderableWidget);
         this.repositionElements();
+    }
+    
+    private void updateMusicFrequencyWidgets()
+    {
+        boolean enabled = config.customMusicFrequency.isEnabled;
+        musicFrequencyMinSlider.active = enabled;
+        musicFrequencyMaxSlider.active = enabled;
+        musicFrequencyAffectMenuButton.active = enabled;
     }
     
     @Override
@@ -50,8 +121,6 @@ public class ConfigScreen extends Screen
     @Override
     public void onClose()
     {
-        if (list != null) list.applyUnsavedChanges();
-        
         minecraft.setScreen(parent);
     }
     

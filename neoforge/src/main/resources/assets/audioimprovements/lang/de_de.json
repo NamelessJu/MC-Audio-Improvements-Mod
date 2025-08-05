@@ -1,11 +1,30 @@
 {
     "audioimprovements.config.title": "Audio Improvements Einstellungen",
 
-    "audioimprovements.config.option.monoMusicDiscs": "Mono Audio (Schallplatten)",
-    "audioimprovements.config.option.monoOther": "Mono Audio (Andere Geräusche)",
-    "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying": "Musikkonflikte Vermeiden",
-    "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying.tooltip": "Blendet die reguläre Spielmusik aus, wenn eine Schallplatte in deiner Nähe spielt",
-    "audioimprovements.config.option.overrideMusicFrequency": "Musikhäufigkeit Überschreiben",
-    "audioimprovements.config.option.overrideMusicFrequency.tooltip": "Ersetzt die Vanilla-Musikhäufigkeit mit einem benutzerdefinierten zufälligen Intervall",
-    "audioimprovements.config.option.overrideMusicFrequency.disabledVanillaOptionTooltip": "Wird von Audio Improvements Mod überschrieben"
+    "audioimprovements.config.section.mono": "Mono Audio",
+    "audioimprovements.config.option.monoMusicDiscs": "Mono Schallplatten",
+    "audioimprovements.config.option.monoNoteBlocks": "Mono Notenblöcke",
+    "audioimprovements.config.option.monoWeather": "Mono Wetter",
+    "audioimprovements.config.option.monoBlocks": "Mono Blöcke",
+    "audioimprovements.config.option.monoHostile": "Mono Feindliche Kreaturen",
+    "audioimprovements.config.option.monoNeutral": "Mono Freundliche Kreaturen",
+    "audioimprovements.config.option.monoPlayers": "Mono Spieler",
+    "audioimprovements.config.option.monoAmbient": "Mono Umgebung",
+
+    "audioimprovements.config.section.music": "Musik",
+    "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying": "Reguläre Musik Für Schallplatten Ausblenden",
+    "audioimprovements.config.option.fadeMusicWhenNoteBlockPlaying": "Reguläre Musik Für Notenblöcke Ausblenden",
+    "audioimprovements.config.option.musicFadeOutSeconds": "Ausblendzeit",
+    "audioimprovements.config.option.musicFadeInSeconds": "Einblendzeit",
+    "audioimprovements.config.option.preventMusicRepeat": "Musikwiederholung Verhindern",
+    "audioimprovements.config.option.preventMusicRepeat.tooltip": "Verhindert, dass das gleiche Musikstück mehrmals hintereinander gespielt wird",
+    "audioimprovements.config.option.customMusicFrequency": "Benutzerdefinierte Musikhäufigkeit",
+    "audioimprovements.config.option.customMusicFrequency.tooltip": "Ersetzt die Vanilla-Musikhäufigkeiten mit einem benutzerdefinierten zufälligen Intervall",
+    "audioimprovements.config.option.customMusicFrequency.disabledVanillaOptionTooltip": "Wird von Audio Improvements Mod überschrieben",
+    "audioimprovements.config.option.musicFrequencyMinTicks": "Musikhäufigkeit Min",
+    "audioimprovements.config.option.musicFrequencyMaxTicks": "Musikhäufigkeit Max",
+    "audioimprovements.config.option.musicFrequencyAffectMenu": "Hauptmenümusik Beeinflussen",
+
+    "audioimprovements.time.seconds": "Sekunde(n)",
+    "audioimprovements.time.minutes": "Minute(n)"
 }

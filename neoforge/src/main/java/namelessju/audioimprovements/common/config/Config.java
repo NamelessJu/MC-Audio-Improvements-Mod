@@ -14,22 +14,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class Config implements Iterable<ConfigEntry>
+public abstract class Config implements Iterable<ConfigEntry<?>>
 {
     public final File file;
     
-    private final List<ConfigEntry> entries = new ArrayList<>();
+    private final List<ConfigEntry<?>> entries = new ArrayList<>();
     
     public Config(Path configDir, String fileName)
     {
         this.file = configDir.resolve(fileName.replaceAll("[\\\\/]", "")).toFile();
     }
     
+    void addEntry(ConfigEntry<?> entry)
+    {
+        entries.add(entry);
+    }
+    
     public void load()
     {
         if (!file.exists())
         {
-            for (ConfigEntry entry : this) entry.reset();
+            for (ConfigEntry<?> entry : this) entry.reset();
             save();
             return;
         }
@@ -58,13 +63,13 @@ public abstract class Config implements Iterable<ConfigEntry>
         boolean missingKeyFound = false;
         
         JsonObject jsonObject = json.getAsJsonObject();
-        for (ConfigEntry entry : this)
+        for (ConfigEntry<?> entry : this)
         {
             JsonElement element = jsonObject.get(entry.key);
             if (element != null)
             {
                 if (entry.loadFromJsonElement(element)) continue;
-                else AudioImprovements.LOGGER.warn("Invalid value in config file for entry \"{}\"", entry.key);
+                else logInvalidEntryValue(entry, element.toString());
             }
             else missingKeyFound = true;
             entry.reset();
@@ -77,10 +82,15 @@ public abstract class Config implements Iterable<ConfigEntry>
         }
     }
     
+    protected void logInvalidEntryValue(ConfigEntry<?> entry, String details)
+    {
+        AudioImprovements.LOGGER.warn("Invalid value in config file for entry \"{}\": {}", entry.key, details);
+    }
+    
     public void save()
     {
         JsonObject json = new JsonObject();
-        for (ConfigEntry entry : this)
+        for (ConfigEntry<?> entry : this)
         {
             json.add(entry.key, entry.saveToJsonElement());
         }
@@ -108,19 +118,25 @@ public abstract class Config implements Iterable<ConfigEntry>
     }
     
     @Override
-    public @NotNull Iterator<ConfigEntry> iterator()
+    public @NotNull Iterator<ConfigEntry<?>> iterator()
     {
         return entries.iterator();
     }
     
+    /*
     protected ConfigEntryBuilder<BooleanEntry> booleanBuilder(String key, boolean defaultValue)
     {
         return new ConfigEntryBuilder<>(new BooleanEntry(this, key, defaultValue));
     }
     
+    protected ConfigEntryBuilder<IntegerEntry> integerBuilder(String key, int defaultValue, int minValue, int maxValue)
+    {
+        return new ConfigEntryBuilder<>(new IntegerEntry(this, key, defaultValue, minValue, maxValue));
+    }
+    
     public class ConfigEntryBuilder<T extends ConfigEntry>
     {
-        private final T entry;
+        private T entry;
     
         private ConfigEntryBuilder(T entry)
         {
@@ -135,8 +151,12 @@ public abstract class Config implements Iterable<ConfigEntry>
         
         public T build()
         {
+            if (this.entry == null) throw new IllegalStateException("ConfigEntryBuilder has already built it's entry before");
+            T entry = this.entry;
+            this.entry = null;
             entries.add(entry);
             return entry;
         }
     }
+    */
 }

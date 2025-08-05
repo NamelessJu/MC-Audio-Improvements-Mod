@@ -14,7 +14,7 @@ public abstract class ClientLevelMixin
     @Inject(method="disconnect", at=@At("TAIL"))
     private void audioImprovements$disconnect(Component reason, CallbackInfo ci)
     {
-        AudioImprovements.getInstance().musicDiscChannels.clear();
+        AudioImprovements.getInstance().musicBlockChannels.clear();
         AudioImprovements.LOGGER.debug("Disconnected from level");
     }
 }

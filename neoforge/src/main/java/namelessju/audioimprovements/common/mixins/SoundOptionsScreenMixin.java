@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SoundOptionsScreen.class)
-public class SoundOptionsScreenMixin
+public abstract class SoundOptionsScreenMixin
 {
     @Inject(method = "addOptions", at = @At("TAIL"))
     protected void audioImprovements$addOptions(CallbackInfo ci)
     {
-        BooleanEntry overrideMusicFrequency = AudioImprovements.getInstance().config.overrideMusicFrequency;
-        if (!overrideMusicFrequency.value) return;
+        BooleanEntry overrideMusicFrequency = AudioImprovements.getInstance().config.customMusicFrequency;
+        if (!overrideMusicFrequency.isEnabled) return;
         AbstractWidget widget = ((OptionsSubScreenAccessor) this).audioImprovements$getList()
             .findOption(Minecraft.getInstance().options.musicFrequency());
         if (widget != null)
