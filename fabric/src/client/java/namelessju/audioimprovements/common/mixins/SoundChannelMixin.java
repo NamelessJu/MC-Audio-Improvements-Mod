@@ -2,7 +2,7 @@ package namelessju.audioimprovements.common.mixins;
 
 import com.mojang.blaze3d.audio.Channel;
 import namelessju.audioimprovements.common.AudioImprovements;
-import namelessju.audioimprovements.common.SoundType;
+import namelessju.audioimprovements.common.data.SoundType;
 import namelessju.audioimprovements.common.mixinaccessors.SoundChannelMixinAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;

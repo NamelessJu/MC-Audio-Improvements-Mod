@@ -1,15 +1,13 @@
 package namelessju.audioimprovements.common.config;
 
-import com.google.gson.JsonElement;
 import namelessju.audioimprovements.common.AudioImprovements;
 import net.minecraft.client.OptionInstance;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class ConfigEntry
+public abstract class ConfigEntry implements IJsonSavable
 {
     protected final Config config;
     
@@ -50,10 +48,4 @@ public abstract class ConfigEntry
     }
     
     public abstract void reset();
-    
-    abstract boolean loadFromJsonElement(JsonElement element);
-    
-    abstract JsonElement saveToJsonElement();
-    
-    public abstract AbstractWidget createWidget(int x, int y, int width);
 }

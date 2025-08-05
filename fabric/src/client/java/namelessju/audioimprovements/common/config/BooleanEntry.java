@@ -2,36 +2,38 @@ package namelessju.audioimprovements.common.config;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import namelessju.audioimprovements.common.gui.WidgetBuilder;
+import namelessju.audioimprovements.common.gui.WidgetFactory;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.CycleButton;
+
+import java.util.function.Consumer;
 
 public class BooleanEntry extends ConfigEntry
 {
     private final boolean defaultValue;
-    public boolean value;
+    public boolean isEnabled;
     
     public BooleanEntry(Config config, String key, boolean defaultValue)
     {
         super(config, key);
-        value = this.defaultValue = defaultValue;
+        isEnabled = this.defaultValue = defaultValue;
     }
     
     @Override
     public void reset()
     {
-        value = defaultValue;
+        isEnabled = defaultValue;
     }
     
     @Override
-    boolean loadFromJsonElement(JsonElement element)
+    public boolean loadFromJsonElement(JsonElement element)
     {
         if (element.isJsonPrimitive())
         {
             JsonPrimitive primitive = element.getAsJsonPrimitive();
             if (primitive.isBoolean())
             {
-                value = primitive.getAsBoolean();
+                isEnabled = primitive.getAsBoolean();
                 return true;
             }
         }
@@ -39,17 +41,19 @@ public class BooleanEntry extends ConfigEntry
     }
     
     @Override
-    JsonElement saveToJsonElement()
+    public JsonElement saveToJsonElement()
     {
-        return new JsonPrimitive(value);
+        return new JsonPrimitive(isEnabled);
     }
     
-    @Override
-    public AbstractWidget createWidget(int x, int y, int width)
+    public AbstractWidget createWidget(int x, int y, int width, Consumer<Boolean> onValueChange)
     {
-        return WidgetBuilder.buildBooleanButton(x, y, width, 20, getNameComponent(), value,
+        return WidgetFactory.buildBooleanButton(x, y, width, 20, getNameComponent(), isEnabled,
             builder -> builder.withTooltip(getTooltipSupplier()),
-            (CycleButton<Boolean> button, boolean value) -> BooleanEntry.this.value = value
+            (CycleButton<Boolean> button, Boolean value) -> {
+                BooleanEntry.this.isEnabled = value;
+                if (onValueChange != null) onValueChange.accept(value);
+            }
         );
     }
 }

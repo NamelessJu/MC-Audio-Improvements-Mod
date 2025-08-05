@@ -1,6 +1,6 @@
 package namelessju.audioimprovements.common.mixinaccessors;
 
-import namelessju.audioimprovements.common.SoundType;
+import namelessju.audioimprovements.common.data.SoundType;
 import net.minecraft.world.phys.Vec3;
 
 public interface SoundChannelMixinAccessor

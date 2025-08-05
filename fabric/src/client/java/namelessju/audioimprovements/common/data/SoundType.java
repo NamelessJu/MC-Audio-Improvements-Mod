@@ -1,4 +1,4 @@
-package namelessju.audioimprovements.common;
+package namelessju.audioimprovements.common.data;
 
 public enum SoundType
 {

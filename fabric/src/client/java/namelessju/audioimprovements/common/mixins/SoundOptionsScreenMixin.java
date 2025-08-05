@@ -19,7 +19,7 @@ public class SoundOptionsScreenMixin
     protected void audioImprovements$addOptions(CallbackInfo ci)
     {
         BooleanEntry overrideMusicFrequency = AudioImprovements.getInstance().config.overrideMusicFrequency;
-        if (!overrideMusicFrequency.value) return;
+        if (!overrideMusicFrequency.isEnabled) return;
         AbstractWidget widget = ((OptionsSubScreenAccessor) this).audioImprovements$getList()
             .findOption(Minecraft.getInstance().options.musicFrequency());
         if (widget != null)

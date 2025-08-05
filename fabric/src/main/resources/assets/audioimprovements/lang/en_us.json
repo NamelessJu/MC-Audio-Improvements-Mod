@@ -1,11 +1,20 @@
 {
     "audioimprovements.config.title": "Audio Improvements Settings",
 
+    "audioimprovements.config.header.mono": "Mono Audio",
     "audioimprovements.config.option.monoMusicDiscs": "Mono Audio (Music Discs)",
     "audioimprovements.config.option.monoOther": "Mono Audio (Other Sounds)",
+
+    "audioimprovements.config.header.music": "Music",
     "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying": "Prevent Music Clash",
     "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying.tooltip": "Fades out the regular game music when a music disc is playing near you",
-    "audioimprovements.config.option.overrideMusicFrequency": "Override Music Frequency",
-    "audioimprovements.config.option.overrideMusicFrequency.tooltip": "Replaces the vanilla music frequency with a customizable random interval",
-    "audioimprovements.config.option.overrideMusicFrequency.disabledVanillaOptionTooltip": "Overridden by Audio Improvements mod"
+    "audioimprovements.config.option.preventMusicRepeat": "Prevent Music Repeat",
+    "audioimprovements.config.option.preventMusicRepeat.tooltip": "Prevents the same music piece from playing multiple times in a row",
+    "audioimprovements.config.option.overrideMusicFrequency": "Custom Music Frequency",
+    "audioimprovements.config.option.overrideMusicFrequency.tooltip": "Replaces the vanilla music frequencies with a customizable random interval",
+    "audioimprovements.config.option.overrideMusicFrequency.disabledVanillaOptionTooltip": "Overridden by Audio Improvements mod",
+    "audioimprovements.config.option.musicFrequencyMinTicks": "Music Frequency Min",
+    "audioimprovements.config.option.musicFrequencyMaxTicks": "Music Frequency Max",
+    "audioimprovements.config.option.musicFrequency.seconds": "Second(s)",
+    "audioimprovements.config.option.musicFrequency.minutes": "Minute(s)"
 }

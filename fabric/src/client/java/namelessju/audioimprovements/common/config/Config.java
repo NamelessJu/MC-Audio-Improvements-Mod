@@ -64,7 +64,7 @@ public abstract class Config implements Iterable<ConfigEntry>
             if (element != null)
             {
                 if (entry.loadFromJsonElement(element)) continue;
-                else AudioImprovements.LOGGER.warn("Invalid value in config file for entry \"{}\"", entry.key);
+                else logInvalidEntryValue(entry, element.toString());
             }
             else missingKeyFound = true;
             entry.reset();
@@ -75,6 +75,11 @@ public abstract class Config implements Iterable<ConfigEntry>
             save();
             AudioImprovements.LOGGER.info("Added missing config key(s) to file");
         }
+    }
+    
+    protected void logInvalidEntryValue(ConfigEntry entry, String details)
+    {
+        AudioImprovements.LOGGER.warn("Invalid value in config file for entry \"{}\": {}", entry.key, details);
     }
     
     public void save()
@@ -118,9 +123,14 @@ public abstract class Config implements Iterable<ConfigEntry>
         return new ConfigEntryBuilder<>(new BooleanEntry(this, key, defaultValue));
     }
     
+    protected ConfigEntryBuilder<IntegerEntry> integerBuilder(String key, int defaultValue)
+    {
+        return new ConfigEntryBuilder<>(new IntegerEntry(this, key, defaultValue));
+    }
+    
     public class ConfigEntryBuilder<T extends ConfigEntry>
     {
-        private final T entry;
+        private T entry;
     
         private ConfigEntryBuilder(T entry)
         {
@@ -135,6 +145,9 @@ public abstract class Config implements Iterable<ConfigEntry>
         
         public T build()
         {
+            if (this.entry == null) throw new IllegalStateException("ConfigEntryBuilder has already built it's entry before");
+            T entry = this.entry;
+            this.entry = null;
             entries.add(entry);
             return entry;
         }

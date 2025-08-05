@@ -1,8 +1,9 @@
 package namelessju.audioimprovements.common.mixins;
 
 import namelessju.audioimprovements.common.AudioImprovements;
-import namelessju.audioimprovements.common.SoundType;
+import namelessju.audioimprovements.common.data.SoundType;
 import namelessju.audioimprovements.common.mixinaccessors.SoundChannelMixinAccessor;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.ChannelAccess;
 import net.minecraft.client.sounds.SoundEngine;
@@ -26,20 +27,31 @@ public abstract class SoundEngineMixin
     )
     private Object audioImprovements$onSourcesPut(Map<SoundInstance, ChannelAccess.ChannelHandle> instanceToChannel, Object soundObj, Object channelHandleObj)
     {
-        SoundInstance sound = (SoundInstance) soundObj;
+        SoundInstance soundInstance = (SoundInstance) soundObj;
         ChannelAccess.ChannelHandle channelHandle = (ChannelAccess.ChannelHandle) channelHandleObj;
         
         channelHandle.execute(source -> {
             SoundChannelMixinAccessor mixinAccessor = (SoundChannelMixinAccessor) source;
             
-            if (sound.getSource() == SoundSource.RECORDS)
+            switch (soundInstance.getSource())
             {
-                mixinAccessor.audioImprovements$setSoundType(SoundType.MUSIC_DISC);
-                AudioImprovements.getInstance().musicDiscChannels.add(source);
-                AudioImprovements.LOGGER.debug("Music disc played");
+                case SoundSource.RECORDS:
+                    mixinAccessor.audioImprovements$setSoundType(SoundType.MUSIC_DISC);
+                    AudioImprovements.getInstance().musicDiscChannels.add(source);
+                    AudioImprovements.LOGGER.debug("Music disc played");
+                    break;
+                    
+                case SoundSource.MUSIC:
+                    Sound sound = soundInstance.getSound();
+                    if (sound != null)
+                    {
+                        AudioImprovements.getInstance().lastPlayedMusicLocation = sound.getLocation();
+                        AudioImprovements.LOGGER.debug("Played music \"{}\"", AudioImprovements.getInstance().lastPlayedMusicLocation);
+                    }
+                    break;
             }
         });
         
-        return instanceToChannel.put(sound, channelHandle);
+        return instanceToChannel.put(soundInstance, channelHandle);
     }
 }

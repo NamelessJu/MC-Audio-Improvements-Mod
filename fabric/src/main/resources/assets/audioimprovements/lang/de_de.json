@@ -1,11 +1,20 @@
 {
     "audioimprovements.config.title": "Audio Improvements Einstellungen",
 
+    "audioimprovements.config.header.mono": "Mono",
     "audioimprovements.config.option.monoMusicDiscs": "Mono Audio (Schallplatten)",
     "audioimprovements.config.option.monoOther": "Mono Audio (Andere Geräusche)",
-    "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying": "Musikkonflikte Vermeiden",
+
+    "audioimprovements.config.header.music": "Musik",
+    "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying": "Musikkonflikte Verhindern",
     "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying.tooltip": "Blendet die reguläre Spielmusik aus, wenn eine Schallplatte in deiner Nähe spielt",
-    "audioimprovements.config.option.overrideMusicFrequency": "Musikhäufigkeit Überschreiben",
-    "audioimprovements.config.option.overrideMusicFrequency.tooltip": "Ersetzt die Vanilla-Musikhäufigkeit mit einem benutzerdefinierten zufälligen Intervall",
-    "audioimprovements.config.option.overrideMusicFrequency.disabledVanillaOptionTooltip": "Wird von Audio Improvements Mod überschrieben"
+    "audioimprovements.config.option.preventMusicRepeat": "Musikwiederholung Verhindern",
+    "audioimprovements.config.option.preventMusicRepeat.tooltip": "Verhindert, dass das selbe Musikstück mehrmals hintereinander gespielt wird",
+    "audioimprovements.config.option.overrideMusicFrequency": "Benutzerdefinierte Musikhäufigkeit",
+    "audioimprovements.config.option.overrideMusicFrequency.tooltip": "Ersetzt die Vanilla-Musikhäufigkeiten mit einem benutzerdefinierten zufälligen Intervall",
+    "audioimprovements.config.option.overrideMusicFrequency.disabledVanillaOptionTooltip": "Wird von Audio Improvements Mod überschrieben",
+    "audioimprovements.config.option.musicFrequencyMinTicks": "Musikhäufigkeit Min",
+    "audioimprovements.config.option.musicFrequencyMaxTicks": "Musikhäufigkeit Max",
+    "audioimprovements.config.option.musicFrequency.seconds": "Sekunde(n)",
+    "audioimprovements.config.option.musicFrequency.minutes": "Minute(n)"
 }
