@@ -1,62 +1,48 @@
 package namelessju.audioimprovements.common.gui;
 
-import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class IntegerSlider extends AbstractSliderButton
+public class IntegerSlider extends Slider<Integer>
 {
-    @NotNull
-    private final Component name;
-    @NotNull
-    private final Consumer<Integer> onValueChanged;
+    public static final ValueComponentProvider<Integer> DEFAULT_COMPONENT_SUPPLIER = value -> Component.literal(Integer.toString(value));
+    
     private final int min;
     private final int max;
-    @Nullable
-    public Component suffixComponent = null;
+    public int stepSize = -1;
+    
+    @NotNull
+    private final Consumer<Integer> onValueChanged;
     
     public IntegerSlider(
-        int x,
-        int y,
-        int width,
-        int height,
+        int x, int y, int width, int height,
         @NotNull Component name,
-        int min,
-        int max,
-        int initialValue,
+        int min, int max, int initialValue,
         @NotNull Consumer<Integer> onValueChanged
     )
     {
-        super(x, y, width, height, Component.empty(), 0);
+        super(x, y, width, height, name, DEFAULT_COMPONENT_SUPPLIER);
         this.min = min;
         this.max = max;
-        this.name = name;
         this.onValueChanged = onValueChanged;
-        setValue(initialValue);
+        updateValue(initialValue);
+        updateMessage();
     }
     
     @Override
-    protected void updateMessage()
+    public Integer getValue()
     {
-        MutableComponent message = Component.empty();
-        message.append(name);
-        message.append(Component.literal(": "))
-            .append(Integer.toString(sliderValueToInt()));
-        if (suffixComponent != null) message.append(" ").append(suffixComponent);
-        this.setMessage(message);
+        return sliderValueToInt();
     }
     
     @Override
     protected void applyValue()
     {
-        int value = sliderValueToInt();
-        updateValue(value);
-        onValueChanged.accept(value);
+        updateValue(sliderValueToInt());
+        onValueChanged.accept(sliderValueToInt());
     }
     
     @Override
@@ -69,7 +55,7 @@ public class IntegerSlider extends AbstractSliderButton
             boolean keyLeftPressed = i == 263;
             if (keyLeftPressed || i == 262)
             {
-                setValue(sliderValueToInt() + (keyLeftPressed ? -1 : 1));
+                setValue(sliderValueToInt() + (keyLeftPressed ? -stepSize : stepSize));
             }
             
             return true;
@@ -80,18 +66,21 @@ public class IntegerSlider extends AbstractSliderButton
     
     private void updateValue(int value)
     {
-        this.value = Mth.clamp(intToSliderValue(value), 0D, 1D); // Snap value to index values;
+        this.value = Mth.clamp(intToSliderValue(value), 0D, 1D);
     }
     
     public void setValue(int value)
     {
         updateValue(value);
+        onValueChanged.accept(sliderValueToInt());
         updateMessage();
     }
     
     private int sliderValueToInt()
     {
-        return min + (int) Math.round((max - min) * value);
+        int stepSize = this.stepSize > 0 ? this.stepSize : 1;
+        float relativeValue = (float) ((max - min) * value);
+        return min + Math.round(relativeValue / stepSize) * stepSize;
     }
     
     private double intToSliderValue(int integer)

@@ -38,22 +38,22 @@ public abstract class AbstractSoundInstanceMixin
         if (source == SoundSource.MUSIC)
         {
             AudioImprovements mod = AudioImprovements.getInstance();
-            if (mod.config.preventMusicRepeat.isEnabled && mod.lastPlayedMusicLocation != null)
+            if (mod.config.preventMusicRepeat.isEnabled && mod.lastPlayedMusic != null)
             {
                 int tries = 0;
                 Sound sound;
                 do sound = weighedSoundEvents.getSound(randomSource);
                 while (sound != SoundManager.EMPTY_SOUND
                     && ++tries <= audioImprovements$MAX_REPEAT_PREVENTION_TRIES
-                    && Objects.equals(sound.getLocation(), mod.lastPlayedMusicLocation));
+                    && Objects.equals(sound.getLocation(), mod.lastPlayedMusic));
                 
                 if (tries > 1)
                 {
                     if (tries <= audioImprovements$MAX_REPEAT_PREVENTION_TRIES)
                     {
-                        AudioImprovements.LOGGER.debug("Prevented playing repeat music \"{}\" x{}", mod.lastPlayedMusicLocation, tries - 1);
+                        AudioImprovements.LOGGER.debug("Prevented playing repeat music \"{}\" x{}", mod.lastPlayedMusic, tries - 1);
                     }
-                    else AudioImprovements.LOGGER.warn("Ran out of tries while trying to prevent repeat music \"{}\" (exceeded {} tries)", mod.lastPlayedMusicLocation, audioImprovements$MAX_REPEAT_PREVENTION_TRIES);
+                    else AudioImprovements.LOGGER.warn("Ran out of tries while trying to prevent repeat music \"{}\" (exceeded {} tries)", mod.lastPlayedMusic, audioImprovements$MAX_REPEAT_PREVENTION_TRIES);
                 }
                 
                 return sound;

@@ -35,7 +35,7 @@ public abstract class SoundEngineMixin
             
             String soundPath = soundInstance.getLocation().getPath();
             // ignore namespace to potentially also
-            // detect other mod's music block sounds
+            // detect music block sounds from other mods
             if (soundPath.startsWith("music_disc"))
             {
                 mixinAccessor.audioImprovements$setSoundType(SoundChannelType.MUSIC_DISC);
@@ -75,8 +75,8 @@ public abstract class SoundEngineMixin
                         Sound sound = soundInstance.getSound();
                         if (sound != null)
                         {
-                            AudioImprovements.getInstance().lastPlayedMusicLocation = sound.getLocation();
-                            AudioImprovements.LOGGER.debug("Played music \"{}\"", AudioImprovements.getInstance().lastPlayedMusicLocation);
+                            AudioImprovements.getInstance().lastPlayedMusic = sound.getLocation();
+                            AudioImprovements.LOGGER.debug("Played music \"{}\"", AudioImprovements.getInstance().lastPlayedMusic);
                         }
                         break;
                 }

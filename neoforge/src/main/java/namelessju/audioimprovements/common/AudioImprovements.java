@@ -30,8 +30,8 @@ public abstract class AudioImprovements
     
     
     public boolean openConfigNextTick = false;
-    public Set<Channel> musicBlockChannels = new HashSet<>();
-    public ResourceLocation lastPlayedMusicLocation = null;
+    public final Set<Channel> musicBlockChannels = new HashSet<>();
+    public ResourceLocation lastPlayedMusic = null;
     
     
     public final ConfigImpl config = new ConfigImpl(getConfigDir());
@@ -67,6 +67,20 @@ public abstract class AudioImprovements
         };
     }
     
+    public float getAttenuationMultiplier(@Nullable SoundChannelType type)
+    {
+        // NOTE: this only applies to sounds that have already started playing
+        // because the server doesn't send the sound to a player if the distance
+        // between them is larger than the original attenuation distance
+        if (type == SoundChannelType.MUSIC_DISC)
+        {
+            int value = config.maxDistancePercentMusicDiscs.getValue();
+            if (value > 300) return -1f;
+            return value / 100f;
+        }
+        return 1f;
+    }
+    
     public boolean shouldFadeMusic()
     {
         Vec3 listenerPos = Minecraft.getInstance().getSoundManager().getListenerTransform().position();
@@ -84,7 +98,7 @@ public abstract class AudioImprovements
             
             Vec3 pos = mixinAccessor.audioImprovements$getPos();
             if (pos != null &&
-                listenerPos.distanceTo(pos) < 0.95f * mixinAccessor.audioImprovements$getAttenuation())
+                listenerPos.distanceTo(pos) < 0.95f * mixinAccessor.audioImprovements$getMaxDistance())
             {
                 return true;
             }

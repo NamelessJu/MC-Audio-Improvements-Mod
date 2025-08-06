@@ -11,10 +11,9 @@
         "OptionsSubScreenAccessor",
         "SoundChannelMixin",
         "SoundEngineMixin",
-        "SoundOptionsScreenMixin",
-        "WeighedSoundEventsAccessor"
+        "SoundOptionsScreenMixin"
     ],
     "injectors": {
         "defaultRequire": 1
-  }
+	}
 }

@@ -18,15 +18,24 @@ public class ConfigImpl extends Config
     public final BooleanEntry monoPlayers = new BooleanEntry(this, "monoPlayers", false);
     public final BooleanEntry monoAmbient = new BooleanEntry(this, "monoAmbient", false);
     
+    // Music Discs
+    public final IntegerEntry maxDistancePercentMusicDiscs
+        = new IntegerEntry(this, "maxDistancePercentMusicDiscs", 100, 50, 310)
+        .withTooltip();
+    
+    // Music Clash Prevention
     public final BooleanEntry fadeMusicWhenMusicDiscPlaying
-        = new BooleanEntry(this, "fadeMusicWhenMusicDiscPlaying", true);
+        = new BooleanEntry(this, "fadeMusicWhenMusicDiscPlaying", true)
+        .withTooltip();
     public final BooleanEntry fadeMusicWhenNoteBlockPlaying
-        = new BooleanEntry(this, "fadeMusicWhenNoteBlockPlaying", true);
+        = new BooleanEntry(this, "fadeMusicWhenNoteBlockPlaying", true)
+        .withTooltip();
     public final IntegerEntry musicFadeOutSeconds
         = new IntegerEntry(this, "musicFadeOutSeconds", 2, 0, 10);
     public final IntegerEntry musicFadeInSeconds
         = new IntegerEntry(this, "musicFadeInSeconds", 4, 0, 10);
     
+    // Music
     public final BooleanEntry preventMusicRepeat
         = new BooleanEntry(this, "preventMusicRepeat", true)
         .withTooltip();

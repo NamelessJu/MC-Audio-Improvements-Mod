@@ -122,41 +122,4 @@ public abstract class Config implements Iterable<ConfigEntry<?>>
     {
         return entries.iterator();
     }
-    
-    /*
-    protected ConfigEntryBuilder<BooleanEntry> booleanBuilder(String key, boolean defaultValue)
-    {
-        return new ConfigEntryBuilder<>(new BooleanEntry(this, key, defaultValue));
-    }
-    
-    protected ConfigEntryBuilder<IntegerEntry> integerBuilder(String key, int defaultValue, int minValue, int maxValue)
-    {
-        return new ConfigEntryBuilder<>(new IntegerEntry(this, key, defaultValue, minValue, maxValue));
-    }
-    
-    public class ConfigEntryBuilder<T extends ConfigEntry>
-    {
-        private T entry;
-    
-        private ConfigEntryBuilder(T entry)
-        {
-            this.entry = entry;
-        }
-        
-        public ConfigEntryBuilder<T> withTooltip()
-        {
-            entry.hasTooltip = true;
-            return this;
-        }
-        
-        public T build()
-        {
-            if (this.entry == null) throw new IllegalStateException("ConfigEntryBuilder has already built it's entry before");
-            T entry = this.entry;
-            this.entry = null;
-            entries.add(entry);
-            return entry;
-        }
-    }
-    */
 }

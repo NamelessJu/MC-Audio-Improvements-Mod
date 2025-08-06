@@ -1,64 +1,51 @@
 package namelessju.audioimprovements.common.gui;
 
-import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 
-public class ValueListSlider<T extends ValueListSlider.Value> extends AbstractSliderButton
+public class ValueListSlider<T> extends Slider<T>
 {
-    @NotNull
-    private final Component name;
-    @NotNull
-    private final BiConsumer<Integer, T> onValueChanged;
     private final T[] values;
     
+    @NotNull
+    private final BiConsumer<Integer, T> onValueChanged;
+    
     public ValueListSlider(
-        int x,
-        int y,
-        int width,
-        int height,
+        int x, int y,
+        int width, int height,
         @NotNull Component name,
+        @NotNull ValueComponentProvider<T> valueComponentProvider,
         @NotNull T[] values,
         @NotNull T initialValue,
         @NotNull BiConsumer<Integer, T> onValueChanged
     )
     {
-        super(x, y, width, height, Component.empty(), 0);
+        super(x, y, width, height, name, valueComponentProvider);
         this.values = values;
-        this.name = name;
         this.onValueChanged = onValueChanged;
         setValue(initialValue);
         this.updateMessage();
     }
     
-    @Override
-    protected void updateMessage()
-    {
-        MutableComponent message = Component.empty();
-        message.append(name);
-        T value = getCurrentValue();
-        message.append(Component.literal(": "))
-            .append(value.getValueComponent());
-        Component suffixComponent = value.getSuffixComponent();
-        if (suffixComponent != null) message.append(" ").append(suffixComponent);
-        this.setMessage(message);
-    }
-    
     private void updateValue(int index)
     {
         this.value = Mth.clamp(indexToSliderValue(index), 0D, 1D); // Snap value to index values
-        onValueChanged.accept(index, getCurrentValue());
+        onValueChanged.accept(index, getValue());
     }
     
     @Override
     protected void applyValue()
     {
         updateValue(sliderValueToIndex());
+    }
+    
+    @Override
+    public T getValue()
+    {
+        return values[Mth.clamp(sliderValueToIndex(), 0, values.length - 1)];
     }
     
     @Override
@@ -109,17 +96,5 @@ public class ValueListSlider<T extends ValueListSlider.Value> extends AbstractSl
     private double indexToSliderValue(int integer)
     {
         return integer / (double) (values.length - 1);
-    }
-    
-    private T getCurrentValue()
-    {
-        return values[Mth.clamp(sliderValueToIndex(), 0, values.length - 1)];
-    }
-    
-    public interface Value
-    {
-        @NotNull Component getValueComponent();
-        
-        @Nullable Component getSuffixComponent();
     }
 }

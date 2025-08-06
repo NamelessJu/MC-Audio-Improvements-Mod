@@ -1,14 +1,14 @@
 package namelessju.audioimprovements.common.data;
 
 import namelessju.audioimprovements.common.config.IntegerEntry;
+import namelessju.audioimprovements.common.gui.Slider;
 import namelessju.audioimprovements.common.gui.ValueListSlider;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 
-public class MusicFrequencyValue implements ValueListSlider.Value
+public class MusicFrequencyValue
 {
     private static final Component SUFFIX_SECONDS = Component.translatable("audioimprovements.time.seconds");
     private static final Component SUFFIX_MINUTES = Component.translatable("audioimprovements.time.minutes");
@@ -56,10 +56,14 @@ public class MusicFrequencyValue implements ValueListSlider.Value
         new MusicFrequencyValue(60, true)
     };
     
+    public static final Slider.ValueComponentProvider<MusicFrequencyValue> VALUE_COMPONENT_PROVIDER
+        = value -> value.valueComponent;
+    
     public static ValueListSlider<MusicFrequencyValue> createConfigSlider(IntegerEntry configEntry, @Nullable BiConsumer<Integer, MusicFrequencyValue> onValueChanged)
     {
         return new ValueListSlider<>(0, 0, 0, 20,
-            configEntry.getNameComponent(), MusicFrequencyValue.VALUES, getClosestFromTicks(configEntry.getValue()),
+            configEntry.getNameComponent(), VALUE_COMPONENT_PROVIDER,
+            MusicFrequencyValue.VALUES, getClosestFromTicks(configEntry.getValue()),
             (index, value) -> {
                 configEntry.setValue(value.ticks);
                 if (onValueChanged != null) onValueChanged.accept(index, value);
@@ -87,25 +91,12 @@ public class MusicFrequencyValue implements ValueListSlider.Value
     
     
     public final int ticks;
-    public final Component valueComponent;
-    private final Component suffixComponent;
+    private final Component valueComponent;
     
     private MusicFrequencyValue(int value, boolean isMinutes)
     {
         ticks = value * 20 * (isMinutes ? 60 : 1);
-        this.valueComponent = Component.literal(Integer.toString(value));
-        this.suffixComponent = isMinutes ? SUFFIX_MINUTES : SUFFIX_SECONDS;
-    }
-    
-    @Override
-    public @NotNull Component getValueComponent()
-    {
-        return valueComponent;
-    }
-    
-    @Override
-    public @Nullable Component getSuffixComponent()
-    {
-        return suffixComponent;
+        this.valueComponent = Component.literal(value + " ")
+            .append(isMinutes ? SUFFIX_MINUTES : SUFFIX_SECONDS);
     }
 }

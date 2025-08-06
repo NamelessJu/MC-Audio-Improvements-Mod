@@ -9,5 +9,5 @@ public enum SoundChannelType
     HOSTILE,
     NEUTRAL,
     PLAYERS,
-    AMBIENT;
+    AMBIENT
 }

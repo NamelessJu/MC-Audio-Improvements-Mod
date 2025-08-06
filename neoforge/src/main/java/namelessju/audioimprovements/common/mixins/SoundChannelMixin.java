@@ -29,9 +29,12 @@ public abstract class SoundChannelMixin implements SoundChannelMixinAccessor
     @Unique @Nullable
     private Boolean audioImprovements$isRelativeOriginal = null;
     @Unique @Nullable
-    public SoundChannelType audioImprovements$type = null;
+    private SoundChannelType audioImprovements$type = null;
     @Unique
-    public float audioImprovements$attenuation = 1f;
+    private float audioImprovements$attenuationOriginal = 1f;
+    @Unique
+    private float audioImprovements$attenuationMultiplier = 1f;
+    
     
     @Inject(method = "stop", at = @At("HEAD"))
     private void audioImprovements$stop(CallbackInfo ci)
@@ -62,32 +65,48 @@ public abstract class SoundChannelMixin implements SoundChannelMixinAccessor
     @Inject(method = "updateStream", at = @At("HEAD"))
     private void audioImprovements$updateStream(CallbackInfo ci)
     {
-        if (audioImprovements$posOriginal == null) return;
-        if (audioImprovements$isMono())
+        // Update mono audio
+        if (audioImprovements$posOriginal != null)
         {
-            AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, 1);
-            if (!Boolean.TRUE.equals(audioImprovements$isRelativeOriginal))
+            if (audioImprovements$isMono())
             {
-                Vec3 listenerPos = Minecraft.getInstance().getSoundManager().getListenerTransform().position();
-                float distanceToListener = (float) listenerPos.distanceTo(audioImprovements$posOriginal);
-                AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {0f, 0f, distanceToListener});
+                AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, 1);
+                if (!Boolean.TRUE.equals(audioImprovements$isRelativeOriginal))
+                {
+                    Vec3 listenerPos = Minecraft.getInstance().getSoundManager().getListenerTransform().position();
+                    float distanceToListener = (float) listenerPos.distanceTo(audioImprovements$posOriginal);
+                    AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {0f, 0f, distanceToListener});
+                }
+                else AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {(float) audioImprovements$posOriginal.x, (float) audioImprovements$posOriginal.y, (float) audioImprovements$posOriginal.z});
+                audioImprovements$monoBefore = true;
             }
-            else AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {(float) audioImprovements$posOriginal.x, (float) audioImprovements$posOriginal.y, (float) audioImprovements$posOriginal.z});
-            audioImprovements$monoBefore = true;
+            else if (audioImprovements$monoBefore)
+            {
+                AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, Boolean.TRUE.equals(audioImprovements$isRelativeOriginal) ? 1 : 0);
+                AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {(float) audioImprovements$posOriginal.x, (float) audioImprovements$posOriginal.y, (float) audioImprovements$posOriginal.z});
+                audioImprovements$monoBefore = false;
+                AudioImprovements.LOGGER.debug("Reset sound {} position from mono to true 3D", source);
+            }
         }
-        else if (audioImprovements$monoBefore)
+        
+        // Update attenuation
+        float attenuationMultiplier = AudioImprovements.getInstance().getAttenuationMultiplier(audioImprovements$type);
+        if (audioImprovements$attenuationMultiplier != attenuationMultiplier)
         {
-            AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, Boolean.TRUE.equals(audioImprovements$isRelativeOriginal) ? 1 : 0);
-            AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {(float) audioImprovements$posOriginal.x, (float) audioImprovements$posOriginal.y, (float) audioImprovements$posOriginal.z});
-            audioImprovements$monoBefore = false;
-            AudioImprovements.LOGGER.debug("Reset sound {} position to true 3D", source);
+            audioImprovements$attenuationMultiplier = attenuationMultiplier;
+            audioImprovements$applyAttenuation();
         }
     }
     
-    @Inject(method = "linearAttenuation", at = @At("HEAD"))
+    @Inject(method = "linearAttenuation", at = @At("HEAD"), cancellable = true)
     private void audioImprovements$linearAttenuation(float attenuation, CallbackInfo ci)
     {
-        audioImprovements$attenuation = attenuation;
+        audioImprovements$attenuationOriginal = attenuation;
+        AL10.alSourcei(source, AL10.AL_DISTANCE_MODEL, 53251);
+        AL10.alSourcef(source, AL10.AL_ROLLOFF_FACTOR, 1f);
+        AL10.alSourcef(source, AL10.AL_REFERENCE_DISTANCE, 0f);
+        audioImprovements$applyAttenuation();
+        ci.cancel();
     }
     
     @Override
@@ -109,9 +128,10 @@ public abstract class SoundChannelMixin implements SoundChannelMixinAccessor
     }
     
     @Override
-    public float audioImprovements$getAttenuation()
+    public float audioImprovements$getMaxDistance()
     {
-        return audioImprovements$attenuation;
+        if (audioImprovements$attenuationMultiplier < 0f) return Float.POSITIVE_INFINITY;
+        return audioImprovements$attenuationOriginal * audioImprovements$attenuationMultiplier;
     }
     
     @Unique
@@ -121,13 +141,24 @@ public abstract class SoundChannelMixin implements SoundChannelMixinAccessor
     }
     
     @Unique
+    private void audioImprovements$applyAttenuation()
+    {
+        if (AL10.alGetSourcei(source, AL10.AL_DISTANCE_MODEL) != 53251) return;
+        AL10.alSourcef(source, AL10.AL_MAX_DISTANCE, audioImprovements$getMaxDistance());
+    }
+    
+    @Unique
     private void audioImprovements$removeMusicBlockSource()
     {
         if (this.audioImprovements$type == SoundChannelType.MUSIC_DISC
             || this.audioImprovements$type == SoundChannelType.NOTE_BLOCK)
         {
-            AudioImprovements.getInstance().musicBlockChannels.remove((Channel)(Object)this);
-            AudioImprovements.LOGGER.debug("Removed reference to music block sound channel {}", source);
+            boolean wasRemoved = AudioImprovements.getInstance().musicBlockChannels.remove((Channel)(Object)this);
+            if (wasRemoved && AudioImprovements.LOGGER.isDebugEnabled())
+            {
+                AudioImprovements.LOGGER.debug("Removed reference to music block sound channel ({} references left)",
+                    AudioImprovements.getInstance().musicBlockChannels.size());
+            }
         }
     }
 }

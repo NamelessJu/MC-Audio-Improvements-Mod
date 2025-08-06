@@ -16,7 +16,7 @@ public class WidgetFactory
 {
     public static CycleButton<Boolean> buildBooleanButton(int x, int y, int width, int height, Component name, boolean initialValue, @Nullable Consumer<CycleButton.Builder<Boolean>> builderConsumer, @NotNull BiConsumer<CycleButton<Boolean>, Boolean> onValueChange)
     {
-        CycleButton.Builder<Boolean> builder = CycleButton.<Boolean>builder(value -> OptionInstance.BOOLEAN_TO_STRING.toString(null, value));
+        CycleButton.Builder<Boolean> builder = CycleButton.builder(value -> OptionInstance.BOOLEAN_TO_STRING.toString(null, value));
         if (builderConsumer != null) builderConsumer.accept(builder);
         builder.withValues(OptionInstance.BOOLEAN_VALUES.valueListSupplier())
             .withInitialValue(initialValue);

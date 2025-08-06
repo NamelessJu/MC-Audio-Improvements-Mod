@@ -18,9 +18,10 @@ public class AudioImprovementsFabric extends AudioImprovements implements Client
     {
         init();
         
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            ConfigCommand.register(dispatcher);
-        });
+        ClientCommandRegistrationCallback.EVENT.register(
+            (dispatcher, registryAccess)
+                -> ConfigCommand.register(dispatcher)
+        );
     }
     
     @Override

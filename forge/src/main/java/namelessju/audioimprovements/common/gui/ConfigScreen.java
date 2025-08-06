@@ -4,6 +4,7 @@ import namelessju.audioimprovements.common.AudioImprovements;
 import namelessju.audioimprovements.common.ConfigImpl;
 import namelessju.audioimprovements.common.data.MusicFrequencyValue;
 import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -51,7 +52,19 @@ public class ConfigScreen extends Screen
             config.monoAmbient.createButton(0, 0, 0, null)
         );
         
-        list.addSection(Component.translatable(AudioImprovements.MOD_ID + ".config.section.music"));
+        list.addSection(Component.translatable(AudioImprovements.MOD_ID + ".config.section.musicDiscs"));
+        IntegerSlider musicDiscDistanceSlider;
+        list.addFullWidth(musicDiscDistanceSlider = config.maxDistancePercentMusicDiscs.createSlider(0, 0, 0, null));
+        musicDiscDistanceSlider.setTooltip(Tooltip.create(config.maxDistancePercentMusicDiscs.getTooltipComponent()));
+        musicDiscDistanceSlider.stepSize = 10;
+        musicDiscDistanceSlider.setValueComponentSupplier(
+            value -> {
+                if (value > 300) return config.maxDistancePercentMusicDiscs.getTranslatableComponent("global");
+                return Component.literal(Integer.toString(value)).append("%");
+            }
+        );
+        
+        list.addSection(Component.translatable(AudioImprovements.MOD_ID + ".config.section.musicClashPrevention"));
         list.addFullWidth(config.fadeMusicWhenMusicDiscPlaying.createButton(0, 0, 0, null));
         list.addFullWidth(config.fadeMusicWhenNoteBlockPlaying.createButton(0, 0, 0, null));
         IntegerSlider musicFadeOutSlider, musicFadeInSlider;
@@ -59,13 +72,17 @@ public class ConfigScreen extends Screen
             musicFadeOutSlider = config.musicFadeOutSeconds.createSlider(0, 0, 0, null),
             musicFadeInSlider = config.musicFadeInSeconds.createSlider(0, 0, 0, null)
         );
-        musicFadeOutSlider.suffixComponent = Component.translatable("audioimprovements.time.seconds");
-        musicFadeOutSlider.updateMessage();
-        musicFadeInSlider.suffixComponent = musicFadeOutSlider.suffixComponent;
-        musicFadeInSlider.updateMessage();
+        Slider.ValueComponentProvider<Integer> musicFadeComponentSupplier = value -> Component.empty()
+            .append(Integer.toString(value))
+            .append(" ")
+            .append(Component.translatable("audioimprovements.time.seconds"));
+        musicFadeOutSlider.setValueComponentSupplier(musicFadeComponentSupplier);
+        musicFadeInSlider.setValueComponentSupplier(musicFadeComponentSupplier);
         
+        list.addSection(Component.translatable(AudioImprovements.MOD_ID + ".config.section.music"));
         list.addFullWidth(config.preventMusicRepeat.createButton(0, 0, 0, null));
         
+        list.addSection(Component.translatable(AudioImprovements.MOD_ID + ".config.section.musicFrequency"));
         list.addFullWidth(config.customMusicFrequency.createButton(0, 0, 0,
             enabled -> updateMusicFrequencyWidgets()
         ));

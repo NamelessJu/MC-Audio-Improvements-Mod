@@ -1,23 +1,17 @@
 package namelessju.audioimprovements.common.config;
 
 import namelessju.audioimprovements.common.AudioImprovements;
-import net.minecraft.client.OptionInstance;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class ConfigEntry<T extends ConfigEntry<T>> implements IJsonSavable
 {
-    protected final Config config;
-    
     public final String key;
-    
     private boolean hasTooltip = false;
     
     protected ConfigEntry(Config config, String key)
     {
-        this.config = config;
         this.key = key;
         config.addEntry(this);
     }
@@ -46,14 +40,6 @@ public abstract class ConfigEntry<T extends ConfigEntry<T>> implements IJsonSava
     {
         if (!hasTooltip) return null;
         return getTranslatableComponent("tooltip");
-    }
-    
-    public <U> OptionInstance.TooltipSupplier<U> getTooltipSupplier()
-    {
-        return unused -> {
-            Component tooltipComponent = getTooltipComponent();
-            return tooltipComponent != null ? Tooltip.create(tooltipComponent) : null;
-        };
     }
     
     public abstract void reset();
