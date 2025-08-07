@@ -33,7 +33,7 @@ public class ConfigImpl extends Config
     public final IntegerEntry musicFadeOutSeconds
         = new IntegerEntry(this, "musicFadeOutSeconds", 2, 0, 10);
     public final IntegerEntry musicFadeInSeconds
-        = new IntegerEntry(this, "musicFadeInSeconds", 4, 0, 10);
+        = new IntegerEntry(this, "musicFadeInSeconds", 5, 0, 10);
     
     // Music
     public final BooleanEntry preventMusicRepeat
