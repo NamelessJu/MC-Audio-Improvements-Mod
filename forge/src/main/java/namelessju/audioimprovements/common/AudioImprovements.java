@@ -30,8 +30,10 @@ public abstract class AudioImprovements
     
     
     public boolean openConfigNextTick = false;
+    
     public final Set<Channel> musicBlockChannels = new HashSet<>();
-    public ResourceLocation lastPlayedMusic = null;
+    public float musicVolumeMultiplier = 1f;
+    public @Nullable ResourceLocation lastPlayedMusic = null;
     
     
     public final ConfigImpl config = new ConfigImpl(getConfigDir());

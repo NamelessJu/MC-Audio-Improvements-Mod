@@ -2,11 +2,9 @@ package namelessju.audioimprovements.forge;
 
 import namelessju.audioimprovements.common.AudioImprovements;
 import namelessju.audioimprovements.common.ConfigCommand;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.eventbus.api.bus.BusGroup;
-import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -15,7 +13,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import java.nio.file.Path;
 
 @Mod(AudioImprovements.MOD_ID)
-// @Mod.EventBusSubscriber(modid = AudioImprovements.MOD_ID, value = Dist.CLIENT)
 public final class AudioImprovementsForge extends AudioImprovements
 {
     public AudioImprovementsForge(FMLJavaModLoadingContext context)

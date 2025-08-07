@@ -22,19 +22,25 @@ public abstract class SoundChannelMixin implements SoundChannelMixinAccessor
     @Shadow @Final
     private int source;
     
-    @Unique
-    private boolean audioImprovements$monoBefore = false;
+    @Unique @Nullable
+    private SoundChannelType audioImprovements$type = null;
     @Unique @Nullable
     private Vec3 audioImprovements$posOriginal = null;
     @Unique @Nullable
     private Boolean audioImprovements$isRelativeOriginal = null;
-    @Unique @Nullable
-    private SoundChannelType audioImprovements$type = null;
     @Unique
     private float audioImprovements$attenuationOriginal = 1f;
     @Unique
     private float audioImprovements$attenuationMultiplier = 1f;
+    @Unique
+    private boolean audioImprovements$monoBefore = false;
     
+    
+    @Inject(method = "play", at = @At("HEAD"))
+    private void audioImprovements$play(CallbackInfo ci)
+    {
+        audioImprovements$updatePosition();
+    }
     
     @Inject(method = "stop", at = @At("HEAD"))
     private void audioImprovements$stop(CallbackInfo ci)
@@ -66,28 +72,7 @@ public abstract class SoundChannelMixin implements SoundChannelMixinAccessor
     private void audioImprovements$updateStream(CallbackInfo ci)
     {
         // Update mono audio
-        if (audioImprovements$posOriginal != null)
-        {
-            if (audioImprovements$isMono())
-            {
-                AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, 1);
-                if (!Boolean.TRUE.equals(audioImprovements$isRelativeOriginal))
-                {
-                    Vec3 listenerPos = Minecraft.getInstance().getSoundManager().getListenerTransform().position();
-                    float distanceToListener = (float) listenerPos.distanceTo(audioImprovements$posOriginal);
-                    AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {0f, 0f, distanceToListener});
-                }
-                else AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {(float) audioImprovements$posOriginal.x, (float) audioImprovements$posOriginal.y, (float) audioImprovements$posOriginal.z});
-                audioImprovements$monoBefore = true;
-            }
-            else if (audioImprovements$monoBefore)
-            {
-                AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, Boolean.TRUE.equals(audioImprovements$isRelativeOriginal) ? 1 : 0);
-                AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {(float) audioImprovements$posOriginal.x, (float) audioImprovements$posOriginal.y, (float) audioImprovements$posOriginal.z});
-                audioImprovements$monoBefore = false;
-                AudioImprovements.LOGGER.debug("Reset sound {} position from mono to true 3D", source);
-            }
-        }
+        audioImprovements$updatePosition();
         
         // Update attenuation
         float attenuationMultiplier = AudioImprovements.getInstance().getAttenuationMultiplier(audioImprovements$type);
@@ -138,6 +123,32 @@ public abstract class SoundChannelMixin implements SoundChannelMixinAccessor
     private boolean audioImprovements$isMono()
     {
         return AudioImprovements.getInstance().isSoundTypeMono(audioImprovements$type);
+    }
+    
+    @Unique
+    private void audioImprovements$updatePosition()
+    {
+        if (audioImprovements$posOriginal == null) return;
+        
+        if (audioImprovements$isMono())
+        {
+            AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, 1);
+            if (!Boolean.TRUE.equals(audioImprovements$isRelativeOriginal))
+            {
+                Vec3 listenerPos = Minecraft.getInstance().getSoundManager().getListenerTransform().position();
+                float distanceToListener = (float) listenerPos.distanceTo(audioImprovements$posOriginal);
+                AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {0f, 0f, distanceToListener});
+            }
+            else AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {(float) audioImprovements$posOriginal.x, (float) audioImprovements$posOriginal.y, (float) audioImprovements$posOriginal.z});
+            audioImprovements$monoBefore = true;
+        }
+        else if (audioImprovements$monoBefore)
+        {
+            AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, Boolean.TRUE.equals(audioImprovements$isRelativeOriginal) ? 1 : 0);
+            AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {(float) audioImprovements$posOriginal.x, (float) audioImprovements$posOriginal.y, (float) audioImprovements$posOriginal.z});
+            audioImprovements$monoBefore = false;
+            AudioImprovements.LOGGER.debug("Reset sound {} position from mono to true 3D", source);
+        }
     }
     
     @Unique

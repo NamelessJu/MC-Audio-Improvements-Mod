@@ -4,9 +4,7 @@ import namelessju.audioimprovements.common.AudioImprovements;
 import namelessju.audioimprovements.common.ConfigImpl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.client.sounds.MusicInfo;
 import net.minecraft.client.sounds.MusicManager;
-import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -18,7 +16,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -32,9 +29,6 @@ public abstract class MusicManagerMixin
     @Shadow
     private float currentGain;
     
-    @Unique
-    private float audioImprovements$volumeMultiplier = 1f;
-    
     @Inject(method = "tick", at = @At("TAIL"))
     private void audioImprovements$tick(CallbackInfo ci)
     {
@@ -45,55 +39,29 @@ public abstract class MusicManagerMixin
         if (this.minecraft.player != null)
         {
             float targetMultiplier = mod.shouldFadeMusic() ? 0f : 1f;
-            if (targetMultiplier != audioImprovements$volumeMultiplier)
+            if (targetMultiplier != mod.musicVolumeMultiplier)
             {
                 ConfigImpl config = AudioImprovements.getInstance().config;
-                float volumeChange = targetMultiplier - audioImprovements$volumeMultiplier;
+                float volumeChange = targetMultiplier - mod.musicVolumeMultiplier;
                 volumeChange
                     = volumeChange > 0f ? Math.min(volumeChange, 1f/Math.max(config.musicFadeInSeconds.getValue() * 20, 1))
                     : Math.max(volumeChange, -1f/Math.max(config.musicFadeOutSeconds.getValue() * 20, 1));
-                newVolumeMultiplier = audioImprovements$volumeMultiplier + volumeChange;
+                newVolumeMultiplier = mod.musicVolumeMultiplier + volumeChange;
             }
             else newVolumeMultiplier = targetMultiplier;
         }
         
-        if (newVolumeMultiplier != audioImprovements$volumeMultiplier)
+        if (newVolumeMultiplier != mod.musicVolumeMultiplier)
         {
-            audioImprovements$volumeMultiplier = newVolumeMultiplier;
-            audioImprovements$setSoundVolume();
+            mod.musicVolumeMultiplier = newVolumeMultiplier;
+            audioImprovements$updateSoundVolume();
         }
-    }
-    
-    @Inject(method = "startPlaying", at = @At("TAIL"))
-    private void audioImprovements$play(MusicInfo music, CallbackInfo ci)
-    {
-        audioImprovements$setSoundVolume();
-    }
-    
-    @Redirect(
-        method = "fadePlaying",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/sounds/SoundManager;setVolume(Lnet/minecraft/client/resources/sounds/SoundInstance;F)V",
-            ordinal = 0
-        )
-    )
-    private void audioImprovements$onSoundManagerSetVolume(SoundManager soundManager, SoundInstance current, float volume)
-    {
-        audioImprovements$setSoundVolume();
     }
     
     @Unique
-    @SuppressWarnings("null")
-    private void audioImprovements$setSoundVolume()
+    private void audioImprovements$updateSoundVolume()
     {
-        if (this.currentMusic == null) return;
-        this.minecraft.getSoundManager().setVolume(this.currentMusic, this.currentGain * (audioImprovements$volumeMultiplier * audioImprovements$volumeMultiplier));
-        
-        if (AudioImprovements.LOGGER.isDebugEnabled())
-        {
-            AudioImprovements.LOGGER.debug("Set music currentGain to {} (base: {}, multiplier: {})", this.currentGain * audioImprovements$volumeMultiplier, this.currentGain, this.audioImprovements$volumeMultiplier);
-        }
+        minecraft.getSoundManager().setVolume(currentMusic, currentGain);
     }
     
     

@@ -8,9 +8,14 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.ChannelAccess;
 import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
 
@@ -85,4 +90,34 @@ public abstract class SoundEngineMixin
         
         return instanceToChannel.put(soundInstance, channelHandle);
     }
+    
+    
+    @Inject(method = "calculateVolume(FLnet/minecraft/sounds/SoundSource;)F", at = @At("HEAD"), cancellable = true)
+    private void audioImprovements$calculateVolume(float baseVolume, SoundSource soundSource, CallbackInfoReturnable<Float> cir)
+    {
+        if (soundSource == SoundSource.MUSIC)
+        {
+            float volumeMultiplier = AudioImprovements.getInstance().musicVolumeMultiplier;
+            if (volumeMultiplier != 1f)
+            {
+                float sourceVolume = this.getVolume(soundSource);
+                cir.setReturnValue(Mth.clamp(baseVolume * sourceVolume * volumeMultiplier, 0f, 1f));
+                
+                if (AudioImprovements.LOGGER.isDebugEnabled())
+                {
+                    AudioImprovements.LOGGER.debug("Calculated faded music volume as {} (base: {}, source: {}, multiplier: {})",
+                        cir.getReturnValueF(),
+                        baseVolume,
+                        sourceVolume,
+                        volumeMultiplier
+                    );
+                }
+                
+                cir.cancel();
+            }
+        }
+    }
+    
+    @Shadow
+    protected abstract float getVolume(@Nullable SoundSource soundSource);
 }
