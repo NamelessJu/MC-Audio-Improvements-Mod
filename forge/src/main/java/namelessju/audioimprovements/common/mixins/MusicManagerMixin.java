@@ -69,7 +69,7 @@ public abstract class MusicManagerMixin
         method = "tick",
         at = @At(
             value = "INVOKE_ASSIGN",
-            target = "Lnet/neoforged/neoforge/client/ClientHooks;selectMusic(Lnet/minecraft/sounds/Music;Lnet/minecraft/client/resources/sounds/SoundInstance;)Lnet/minecraft/sounds/Music;",
+            target = "Lnet/minecraft/client/Minecraft;getSituationalMusic()Lnet/minecraft/sounds/Music;",
             ordinal = 0
         )
     )

@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
@@ -58,26 +57,26 @@ public abstract class SoundEngineMixin
             {
                 switch (soundInstance.getSource())
                 {
-                    case SoundSource.WEATHER:
+                    case WEATHER:
                         mixinAccessor.audioImprovements$setSoundType(SoundChannelType.WEATHER);
                         break;
-                    case SoundSource.BLOCKS:
+                    case BLOCKS:
                         mixinAccessor.audioImprovements$setSoundType(SoundChannelType.BLOCKS);
                         break;
-                    case SoundSource.HOSTILE:
+                    case HOSTILE:
                         mixinAccessor.audioImprovements$setSoundType(SoundChannelType.HOSTILE);
                         break;
-                    case SoundSource.NEUTRAL:
+                    case NEUTRAL:
                         mixinAccessor.audioImprovements$setSoundType(SoundChannelType.NEUTRAL);
                         break;
-                    case SoundSource.PLAYERS:
+                    case PLAYERS:
                         mixinAccessor.audioImprovements$setSoundType(SoundChannelType.PLAYERS);
                         break;
-                    case SoundSource.AMBIENT:
+                    case AMBIENT:
                         mixinAccessor.audioImprovements$setSoundType(SoundChannelType.AMBIENT);
                         break;
                     
-                    case SoundSource.MUSIC:
+                    case MUSIC:
                         Sound sound = soundInstance.getSound();
                         if (sound != null)
                         {

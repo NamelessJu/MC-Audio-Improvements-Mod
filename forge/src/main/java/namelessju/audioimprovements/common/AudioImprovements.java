@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +32,7 @@ public abstract class AudioImprovements
     
     public final Set<Channel> musicBlockChannels = new HashSet<>();
     public float musicVolumeMultiplier = 1f;
-    public @Nullable ResourceLocation lastPlayedMusic = null;
+    public ResourceLocation lastPlayedMusic = null;
     
     
     public final ConfigImpl config = new ConfigImpl(getConfigDir());
@@ -53,7 +52,7 @@ public abstract class AudioImprovements
         return new ConfigScreen(parent, config);
     }
     
-    public boolean isSoundTypeMono(@Nullable SoundChannelType type)
+    public boolean isSoundTypeMono(SoundChannelType type)
     {
         if (type == null) return false;
         return switch (type)
@@ -69,7 +68,7 @@ public abstract class AudioImprovements
         };
     }
     
-    public float getAttenuationMultiplier(@Nullable SoundChannelType type)
+    public float getAttenuationMultiplier(SoundChannelType type)
     {
         // NOTE: this only applies to sounds that have already started playing
         // because the server doesn't send the sound to a player if the distance
@@ -85,7 +84,7 @@ public abstract class AudioImprovements
     
     public boolean shouldFadeMusic()
     {
-        Vec3 listenerPos = Minecraft.getInstance().getSoundManager().getListenerTransform().position();
+        Vec3 listenerPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();;
         for (Channel channel : musicBlockChannels)
         {
             if (!channel.playing()) continue;
