@@ -3,7 +3,9 @@ package namelessju.audioimprovements.common.gui;
 import namelessju.audioimprovements.common.AudioImprovements;
 import namelessju.audioimprovements.common.ConfigImpl;
 import namelessju.audioimprovements.common.data.MusicFrequencyValue;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.screens.Screen;
@@ -31,8 +33,8 @@ public class ConfigScreen extends Screen
     @Override
     protected void init()
     {
-        layout.addTitleHeader(this.title, this.font);
-        list = layout.addToContents(new ConfigList(minecraft, this));
+        layout.addToHeader(new StringWidget(this.title, this.font).alignCenter());
+        list = new ConfigList(minecraft, this);
         
         list.addSection(Component.translatable(AudioImprovements.MOD_ID + ".config.section.mono"));
         list.addTwoColumns(
@@ -112,6 +114,8 @@ public class ConfigScreen extends Screen
         
         updateMusicFrequencyWidgets();
         
+        this.addWidget(this.list);
+        
         layout.addToFooter(WidgetFactory.buildDoneButton(this));
         
         this.layout.visitWidgets(this::addRenderableWidget);
@@ -131,7 +135,15 @@ public class ConfigScreen extends Screen
     {
         this.layout.arrangeElements();
         
-        if (list != null) list.updateSize(width, layout);
+        if (list != null) list.updateSize();
+    }
+    
+    @Override
+    public void render(GuiGraphics guiGraphics, int i, int j, float f)
+    {
+        this.renderBackground(guiGraphics);
+        list.render(guiGraphics, i, j, f);
+        super.render(guiGraphics, i, j, f);
     }
     
     @SuppressWarnings("DataFlowIssue")

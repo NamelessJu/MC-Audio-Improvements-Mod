@@ -135,7 +135,7 @@ public abstract class SoundChannelMixin implements SoundChannelMixinAccessor
             AL10.alSourcei(this.source, AL10.AL_SOURCE_RELATIVE, 1);
             if (!Boolean.TRUE.equals(audioImprovements$isRelativeOriginal))
             {
-                Vec3 listenerPos = Minecraft.getInstance().getSoundManager().getListenerTransform().position();
+                Vec3 listenerPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
                 float distanceToListener = (float) listenerPos.distanceTo(audioImprovements$posOriginal);
                 AL10.alSourcefv(this.source, AL10.AL_POSITION, new float[] {0f, 0f, distanceToListener});
             }

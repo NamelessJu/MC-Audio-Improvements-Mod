@@ -21,9 +21,16 @@ public class ConfigList extends ContainerObjectSelectionList<ConfigList.Entry>
     
     public ConfigList(Minecraft minecraft, ConfigScreen screen)
     {
-        super(minecraft, screen.width, screen.layout.getContentHeight(), screen.layout.getHeaderHeight(), 25);
+        super(minecraft, 0, 0, 0, 0, 25);
         this.screen = screen;
+        updateSize();
         this.centerListVertically = false;
+    }
+    
+    public void updateSize()
+    {
+        this.updateSize(screen.width, screen.height, 32, screen.height - 32);
+        this.setScrollAmount(getScrollAmount());
     }
     
     public void addFullWidth(@NotNull AbstractWidget widget)
@@ -49,13 +56,19 @@ public class ConfigList extends ContainerObjectSelectionList<ConfigList.Entry>
     
     public void addSection(Component component)
     {
-        addFullWidth(new StringWidget(0, 25/2 - 9/2 - 1, 0, 9, component, minecraft.font).alignCenter());
+        addFullWidth(new StringWidget(0, 25 / 2 - 9 / 2 - 1, 0, 9, component, minecraft.font).alignCenter());
     }
     
     @Override
     public int getRowWidth()
     {
         return 310;
+    }
+    
+    @Override
+    protected int getScrollbarPosition()
+    {
+        return super.getScrollbarPosition() + 32;
     }
     
     public static class Entry extends ContainerObjectSelectionList.Entry<Entry>
