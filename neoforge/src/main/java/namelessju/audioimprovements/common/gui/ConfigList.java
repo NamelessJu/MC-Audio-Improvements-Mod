@@ -49,7 +49,7 @@ public class ConfigList extends ContainerObjectSelectionList<ConfigList.Entry>
     
     public void addSection(Component component)
     {
-        addFullWidth(new StringWidget(0, 25/2 - 9/2 - 1, 0, 9, component, screen.getFont()).alignCenter());
+        addFullWidth(new StringWidget(0, 25/2 - 9/2 - 1, 0, 9, component, minecraft.font).alignCenter());
     }
     
     @Override

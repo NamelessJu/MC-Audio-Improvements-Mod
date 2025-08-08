@@ -7,11 +7,8 @@
         "ClientLevelMixin",
         "MinecraftMixin",
         "MusicManagerMixin",
-        "MusicManagerMixin$MusicFrequencyMixin",
-        "OptionsSubScreenAccessor",
         "SoundChannelMixin",
-        "SoundEngineMixin",
-        "SoundOptionsScreenMixin"
+        "SoundEngineMixin"
     ],
     "injectors": {
         "defaultRequire": 1

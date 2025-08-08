@@ -100,7 +100,7 @@ public abstract class Config implements Iterable<ConfigEntry<?>>
         {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8));
             JsonWriter jsonWriter = new JsonWriter(writer);
-            jsonWriter.setFormattingStyle(FormattingStyle.PRETTY.withIndent("    "));
+            jsonWriter.setIndent("    ");
             Streams.write(json, jsonWriter);
         }
         catch (FileNotFoundException e)
