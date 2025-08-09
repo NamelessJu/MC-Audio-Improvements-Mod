@@ -1,5 +1,6 @@
 package namelessju.audioimprovements.forge;
 
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import namelessju.audioimprovements.common.AudioImprovements;
 import namelessju.audioimprovements.common.ConfigCommand;
 import net.minecraftforge.client.ConfigScreenHandler;
@@ -20,6 +21,8 @@ public final class AudioImprovementsForge extends AudioImprovements
     public AudioImprovementsForge(FMLJavaModLoadingContext context)
     {
         super();
+        
+        MixinExtrasBootstrap.init();
         
         IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::commonSetup);
