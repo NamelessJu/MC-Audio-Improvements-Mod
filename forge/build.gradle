@@ -13,7 +13,6 @@ base {
     archivesName = mod_id
 }
 
-// Mojang ships Java 21 to end users in 1.20.5+, so your mod should target Java 21.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
@@ -151,7 +150,7 @@ tasks.named('processResources', ProcessResources) {
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
-tasks.named('jar', Jar) {
+jar {
     manifest {
         attributes([
             'Specification-Title'     : mod_id,
@@ -162,13 +161,6 @@ tasks.named('jar', Jar) {
             'Implementation-Vendor'   : mod_authors
         ])
         attributes['MixinConfigs'] = "${mod_id}.mixins.json"
-    }
-
-    // Include the shaded jarjar jar contents into the mod jar
-    from {
-        zipTree(configurations.runtimeClasspath.find {
-            it.name.startsWith('mixinextras-forge') && it.name.endsWith('.jar')
-        })
     }
 
     // This is the preferred method to reobfuscate your jar file
