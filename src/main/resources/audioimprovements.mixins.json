@@ -1,0 +1,25 @@
+{
+    "required": true,
+    "package": "namelessju.audioimprovements.mixins",
+    "compatibilityLevel": "JAVA_17",
+    "refmap": "mixins.audioimprovements.refmap.json",
+    "client": [
+        "AbstractSoundInstanceMixin",
+        "AL10Mixin",
+        "AudioListenerMixin",
+        "CameraTypeMixin",
+        "ClientLevelMixin",
+        "ClientPacketListenerMixin",
+        "LevelRendererMixin",
+        "MinecraftMixin",
+        "MusicManagerMixin",
+        "SoundBufferMixin",
+        "SoundChannelMixin",
+        "SoundChannelMixinHighPriority",
+        "SoundChannelMixinLowPriority",
+        "SoundEngineMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+	}
+}

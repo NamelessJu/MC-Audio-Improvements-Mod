@@ -1,0 +1,68 @@
+{
+    "audioimprovements.unit.second": "%s Sekunde",
+    "audioimprovements.unit.seconds": "%s Sekunden",
+    "audioimprovements.unit.minute": "%s Minute",
+    "audioimprovements.unit.minutes": "%s Minuten",
+    "audioimprovements.unit.blockPerSecond": "%s Block Pro Sekunde",
+    "audioimprovements.unit.blocksPerSecond": "%s Blöcke Pro Sekunde",
+
+    "audioimprovements.config.option.monoMusicDiscs": "Mono Schallplatten",
+    "audioimprovements.config.option.monoNoteBlocks": "Mono Notenblöcke",
+    "audioimprovements.config.option.monoWeather": "Mono Wetter",
+    "audioimprovements.config.option.monoBlocks": "Mono Blöcke",
+    "audioimprovements.config.option.monoHostile": "Mono Feindliche Kreaturen",
+    "audioimprovements.config.option.monoNeutral": "Mono Freundliche Kreaturen",
+    "audioimprovements.config.option.monoPlayers": "Mono Spieler",
+    "audioimprovements.config.option.monoAmbient": "Mono Umgebung",
+    "audioimprovements.config.option.musicDiscDistanceMultiplier": "Maximale Schallplattendistanz",
+    "audioimprovements.config.option.musicDiscDistanceMultiplier.tooltip": "100 %% = 64 Blöcke\n§eErfordert dennoch, dass du innerhalb der Standarddistanz bist, wenn der Ton anfängt, da der Server diesen sonst nicht sendet!",
+    "audioimprovements.config.option.musicDiscDistanceMultiplier.global": "Global",
+    "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying": "Musik Für Schallplatten Ausblenden",
+    "audioimprovements.config.option.fadeMusicWhenMusicDiscPlaying.tooltip": "Blendet die reguläre Spielmusik aus, wenn eine Schallplatte in deiner Nähe spielt",
+    "audioimprovements.config.option.fadeMusicWhenNoteBlockPlaying": "Musik Für Notenblöcke Ausblenden",
+    "audioimprovements.config.option.fadeMusicWhenNoteBlockPlaying.tooltip": "Blendet die reguläre Spielmusik aus, wenn ein Notenblock in deiner Nähe spielt",
+    "audioimprovements.config.option.musicFadeOutTicks": "Ausblenddauer",
+    "audioimprovements.config.option.musicFadeInTicks": "Einblenddauer",
+    "audioimprovements.config.option.preventMusicRepeat": "Musikwiederholung Verhindern",
+    "audioimprovements.config.option.preventMusicRepeat.tooltip": "Verhindert, dass das gleiche Musikstück mehrmals hintereinander gespielt wird",
+    "audioimprovements.config.option.customMusicFrequency": "Benutzerdefinierte Musikhäufigkeit",
+    "audioimprovements.config.option.customMusicFrequency.tooltip": "Ersetzt die Vanilla-Musikhäufigkeit mit einem benutzerdefinierten zufälligen Intervall",
+    "audioimprovements.config.option.musicFrequencyMinTicks": "Musikhäufigkeit Minimum",
+    "audioimprovements.config.option.musicFrequencyMaxTicks": "Musikhäufigkeit Maximum",
+    "audioimprovements.config.option.musicFrequencyAffectMenu": "Hauptmenümusik Beeinflussen",
+    "audioimprovements.config.option.soundSpeedThunder": "Donner-Schallgeschwindigkeit",
+    "audioimprovements.config.option.soundSpeedThunder.tooltip": "Verzögert Donnergeräusche entsprechend deiner Entfernung zu deren Quelle",
+    "audioimprovements.config.option.soundSpeedExplosions": "Explosions-Schallgeschwindigkeit",
+    "audioimprovements.config.option.soundSpeedExplosions.tooltip": "Verzögert Explosionsgeräusche entsprechend deiner Entfernung zu deren Quelle",
+    "audioimprovements.config.option.soundSpeedOther": "Sonstige Schallgeschwindigkeit",
+    "audioimprovements.config.option.soundSpeedOther.tooltip": "Verzögert sonstige Geräusche entsprechend deiner Entfernung zu deren Quelle",
+    "audioimprovements.config.option.soundSpeed.realistic": "%s (Realistisch)",
+    "audioimprovements.config.option.dopplerEffectIntensity": "Doppler-Effekt-Intensität",
+    "audioimprovements.config.option.dopplerEffectIntensity.tooltip": "Ändert die Tonhöhe von Geräuschen, je nachdem, wie schnell sich die Distanz zwischen diesen und dir verändert\n§eBeeinflusst Mono-Geräusche aufgrund von Einschränkungen durch die Sound-Engine nicht",
+    "audioimprovements.config.option.stereoSpatializationFix": "Stereo-Räumlichkeit-Behebung",
+    "audioimprovements.config.option.stereoSpatializationFix.tooltip": "Behebt Stereo-Audio, um korrekt in der Welt positioniert zu werden, indem diese zu Mono konvertiert werden.\nBeeinflusst nur Ressourcenpaket- und Mod-Geräusche, die in der Welt spielen, aber fälschlicherweise das Stereoformat nutzen (Räumlichkeit unterstützt nur Mono).",
+
+
+    "audioimprovements.gui.subScreenButtonFormat": "%s ...",
+    "audioimprovements.gui.percentageFormat": "%s %%",
+
+    "audioimprovements.screen.config.title": "Einstellungen",
+    "audioimprovements.screen.config.subScreenButton.monoAudio": "Mono Audio",
+    "audioimprovements.screen.config.subScreenButton.music": "Musik",
+    "audioimprovements.screen.config.subScreenButton.musicBlocks": "Musikblöcke",
+    "audioimprovements.screen.config.subScreenButton.soundSpeed": "Schallgeschwindigkeit",
+    "audioimprovements.screen.config.subScreenButton.dopplerEffect": "Doppler-Effekt",
+
+    "audioimprovements.screen.configMonoAudio.title": "Mono Audio-Einstellungen",
+
+    "audioimprovements.screen.configMusicBlocks.title": "Musikblock-Einstellungen",
+    "audioimprovements.screen.configMusicBlocks.section.musicClashPrevention": "Musikkonflikt-Verhinderung",
+    "audioimprovements.screen.configMusicBlocks.section.musicDiscs": "Schallplatten",
+
+    "audioimprovements.screen.configMusic.title": "Musik-Einstellungen",
+    "audioimprovements.screen.configMusic.section.musicFrequency": "Musikhäufigkeit",
+
+    "audioimprovements.screen.configSoundSpeed.title": "Schallgeschwindigkeits-Einstellungen",
+
+    "audioimprovements.screen.configDopplerEffect.title": "Doppler-Effekt-Einstellungen"
+}
