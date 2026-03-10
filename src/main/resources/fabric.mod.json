@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "${mod_id}",
+	"version": "${mod_version}",
+	"name": "${mod_name}",
+	"description": "${mod_description}",
+	"authors": [
+		"${mod_authors}"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/audio-improvements/",
+		"sources": "https://github.com/NamelessJu/MC-Audio-Improvements-Mod/",
+        "issues": "https://github.com/NamelessJu/MC-Audio-Improvements-Mod/issues"
+	},
+	"license": "${mod_license}",
+	"icon": "assets/audioimprovements/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"namelessju.audioimprovements.AudioImprovementsFabric"
+		],
+        "modmenu": [
+            "namelessju.audioimprovements.ModMenuApiImpl"
+        ]
+	},
+	"mixins": [
+		{
+			"config": "audioimprovements.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.17",
+		"minecraft": "1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	}
+}

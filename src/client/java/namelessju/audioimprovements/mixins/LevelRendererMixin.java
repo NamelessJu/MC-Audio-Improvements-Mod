@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class LevelRendererMixin
 {
     @ModifyExpressionValue(
-        method = "playStreamingMusic(Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/item/RecordItem;)V",
+        method = "playStreamingMusic",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;forRecord(Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;"
