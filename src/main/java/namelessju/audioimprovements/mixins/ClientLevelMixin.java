@@ -16,6 +16,7 @@ public class ClientLevelMixin
     private void audioImprovements$disconnect(CallbackInfo ci)
     {
         AudioImprovements.getInstance().directSourcePositionChanges.clear();
+        AudioImprovements.getInstance().musicDiscSoundInstances.clear();
         AudioImprovements.getInstance().musicBlockChannels.clear();
         ((MusicManagerMixinAccessor) Minecraft.getInstance().getMusicManager()).audioImprovements$beforeDisconnect();
         AudioImprovements.LOGGER.debug("Disconnected");
