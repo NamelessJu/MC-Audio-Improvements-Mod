@@ -19,6 +19,9 @@
 		"client": [
 			"namelessju.audioimprovements.AudioImprovementsFabric"
 		],
+        "preLaunch": [
+            "namelessju.audioimprovements.AudioImprovementsFabricPreLaunch"
+        ],
         "modmenu": [
             "namelessju.audioimprovements.ModMenuApiImpl"
         ]
@@ -34,5 +37,8 @@
 		"minecraft": "1.20.1",
 		"java": ">=17",
 		"fabric-api": "*"
-	}
+	},
+    "suggests": {
+        "vinurl": "2.1.1"
+    }
 }

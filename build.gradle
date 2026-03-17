@@ -21,6 +21,7 @@ repositories {
         name = "Terraformers"
         url = "https://maven.terraformersmc.com/"
     }
+    maven { url 'https://api.modrinth.com/maven' }
 }
 
 loom {
@@ -33,6 +34,7 @@ loom {
 		}
 	}
 
+    log4jConfigs.from "log4j-dev.xml"
 }
 
 dependencies {
@@ -45,6 +47,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+    modCompileOnly "maven.modrinth:vinurl:${project.vinurl_version}"
 }
 
 processResources {

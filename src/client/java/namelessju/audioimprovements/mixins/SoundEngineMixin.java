@@ -2,7 +2,6 @@ package namelessju.audioimprovements.mixins;
 
 import namelessju.audioimprovements.AudioImprovements;
 import namelessju.audioimprovements.data.SoundChannelType;
-import namelessju.audioimprovements.mixinaccessors.AbstractSoundInstanceMixinAccessor;
 import namelessju.audioimprovements.mixinaccessors.SoundChannelMixinAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.Sound;
@@ -91,8 +90,7 @@ public abstract class SoundEngineMixin
         channelHandle.execute(source -> {
             SoundChannelMixinAccessor channelMixinAccessor = (SoundChannelMixinAccessor) source;
             
-            AbstractSoundInstanceMixinAccessor soundInstanceMixinAccessor = (AbstractSoundInstanceMixinAccessor) soundInstance;
-            if (soundInstanceMixinAccessor.audioImprovements$isMusicDisc())
+            if (AudioImprovements.getInstance().musicDiscSoundInstances.contains(soundInstance))
             {
                 channelMixinAccessor.audioImprovements$setSoundType(SoundChannelType.MUSIC_DISC);
                 AudioImprovements.getInstance().musicBlockChannels.add(source);

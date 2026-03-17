@@ -1,7 +1,7 @@
 package namelessju.audioimprovements.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import namelessju.audioimprovements.mixinaccessors.AbstractSoundInstanceMixinAccessor;
+import namelessju.audioimprovements.AudioImprovements;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,9 +17,9 @@ public class LevelRendererMixin
             target = "Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;forRecord(Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;"
         )
     )
-    private SimpleSoundInstance audioImprovements$afterMusicDiscSoundInstanceCreated(SimpleSoundInstance instance)
+    private SimpleSoundInstance audioImprovements$afterMusicDiscSoundInstanceCreated(SimpleSoundInstance soundInstance)
     {
-        ((AbstractSoundInstanceMixinAccessor) instance).audioImprovements$setIsMusicDisc();
-        return instance;
+        AudioImprovements.getInstance().musicDiscSoundInstances.add(soundInstance);
+        return soundInstance;
     }
 }

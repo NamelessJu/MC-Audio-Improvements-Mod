@@ -16,10 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class AudioImprovements
 {
@@ -40,9 +37,10 @@ public abstract class AudioImprovements
     public boolean isSettingChannelPosition = false;
     public final Map<Integer, Vec3> directSourcePositionChanges = new HashMap<>();
     public boolean skipNextListenerDopplerVelocityUpdate = true;
-    public final Set<Channel> musicBlockChannels = new HashSet<>();
+    public final Set<Channel> musicBlockChannels = Collections.newSetFromMap(new WeakHashMap<>());
     public float musicVolumeMultiplier = 1f;
     public @Nullable ResourceLocation lastPlayedMusic = null;
+    public final Set<SoundInstance> musicDiscSoundInstances = Collections.newSetFromMap(new WeakHashMap<>());
     
     
     public final ConfigImpl config = new ConfigImpl(getConfigDir());

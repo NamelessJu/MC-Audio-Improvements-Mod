@@ -1,0 +1,11 @@
+{
+    "required": false,
+    "package": "namelessju.audioimprovements.mixins.vinurl",
+    "compatibilityLevel": "JAVA_17",
+    "client": [
+        "VinURLSoundManagerMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+	}
+}

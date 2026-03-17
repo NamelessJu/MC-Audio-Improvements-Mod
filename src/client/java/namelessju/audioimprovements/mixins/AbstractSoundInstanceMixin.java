@@ -1,7 +1,6 @@
 package namelessju.audioimprovements.mixins;
 
 import namelessju.audioimprovements.AudioImprovements;
-import namelessju.audioimprovements.mixinaccessors.AbstractSoundInstanceMixinAccessor;
 import net.minecraft.client.resources.sounds.AbstractSoundInstance;
 import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.client.sounds.SoundManager;
@@ -18,28 +17,13 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.Objects;
 
 @Mixin(AbstractSoundInstance.class)
-public abstract class AbstractSoundInstanceMixin implements AbstractSoundInstanceMixinAccessor
+public abstract class AbstractSoundInstanceMixin
 {
     @Unique
     private static final int audioImprovements$MAX_REPEAT_PREVENTION_TRIES = 100;
     
     @Shadow @Final
     protected SoundSource source;
-    
-    @Unique
-    private boolean audioImprovements$isMusicDisc = false;
-    
-    @Override
-    public void audioImprovements$setIsMusicDisc()
-    {
-        audioImprovements$isMusicDisc = true;
-    }
-    
-    @Override
-    public boolean audioImprovements$isMusicDisc()
-    {
-        return audioImprovements$isMusicDisc;
-    }
     
     @Redirect(
         method = "resolve",
