@@ -10,6 +10,7 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 displayURL="https://modrinth.com/mod/audio-improvements"
+displayTest="IGNORE_ALL_VERSION"
 logoFile="assets/audioimprovements/icon.png"
 authors="${mod_authors}"
 description='''${mod_description}'''

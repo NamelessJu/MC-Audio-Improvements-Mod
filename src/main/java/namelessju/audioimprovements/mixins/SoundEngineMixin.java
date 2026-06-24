@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -144,18 +145,16 @@ public abstract class SoundEngineMixin
         return instanceToChannel.put(soundInstance, channelHandle);
     }
     
-    @Redirect(
-        method = "calculateVolume(Lnet/minecraft/client/resources/sounds/SoundInstance;)F",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/resources/sounds/SoundInstance;getVolume()F",
-            ordinal = 0
-        )
+    @ModifyVariable(
+        method = "calculateVolume(FLnet/minecraft/sounds/SoundSource;)F",
+        at = @At("HEAD"),
+        argsOnly = true,
+        ordinal = 0
     )
-    private float audioImprovements$calculateVolumeRedirectSoundVolume(SoundInstance sound)
+    private float audioImprovements$clampCalculateVolume(float f)
     {
         // Fixes MC-98200
-        return Mth.clamp(sound.getVolume(), 0f, 1f);
+        return Mth.clamp(f, 0f, 1f);
     }
     
     @Inject(method = "calculateVolume(FLnet/minecraft/sounds/SoundSource;)F", at = @At("HEAD"), cancellable = true)
