@@ -14,7 +14,7 @@
 	},
 	"license": "${mod_license}",
 	"icon": "assets/audioimprovements/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"client": [
 			"namelessju.audioimprovements.AudioImprovementsFabric"
