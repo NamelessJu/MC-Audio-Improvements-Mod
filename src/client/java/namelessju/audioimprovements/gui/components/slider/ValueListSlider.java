@@ -1,5 +1,6 @@
 package namelessju.audioimprovements.gui.components.slider;
 
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -74,14 +75,15 @@ public class ValueListSlider<T> extends AbstractSlider<T>
     }
     
     @Override
-    public boolean keyPressed(int i, int j, int k)
+    public boolean keyPressed(KeyEvent keyEvent)
     {
+        int keyCode = keyEvent.key();
         double valueBefore = value;
-        if (super.keyPressed(i, j, k))
+        if (super.keyPressed(keyEvent))
         {
             value = valueBefore;
-            boolean keyLeftPressed = i == 263;
-            if (keyLeftPressed || i == 262)
+            boolean keyLeftPressed = keyCode == 263;
+            if (keyLeftPressed || keyCode == 262)
             {
                 setIndex(sliderValueToIndex() + (keyLeftPressed ? -1 : 1));
             }

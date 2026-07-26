@@ -25,7 +25,7 @@ public abstract class LayoutScreen extends BaseScreen
     @Override
     protected final void init()
     {
-        layout.addToHeader(createTitleWidget(), layout.newHeaderLayoutSettings().alignHorizontallyCenter());
+        layout.addToHeader(createTitleWidget());
         initContent();
         initFooter();
         

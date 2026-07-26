@@ -1,25 +1,20 @@
 package namelessju.audioimprovements.mixins;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import namelessju.audioimprovements.AudioImprovements;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(LevelRenderer.class)
+@Mixin(SimpleSoundInstance.class)
 public class LevelRendererMixin
 {
-    @ModifyExpressionValue(
-        method = "playStreamingMusic",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;forRecord(Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/client/resources/sounds/SimpleSoundInstance;"
-        )
-    )
-    private SimpleSoundInstance audioImprovements$afterMusicDiscSoundInstanceCreated(SimpleSoundInstance soundInstance)
+    @Inject(method = "forJukeboxSong", at = @At("RETURN"))
+    private static void audioImprovements$afterMusicDiscSoundInstanceCreated(SoundEvent soundEvent, Vec3 pos, CallbackInfoReturnable<SimpleSoundInstance> cir)
     {
-        AudioImprovements.getInstance().musicDiscSoundInstances.add(soundInstance);
-        return soundInstance;
+        AudioImprovements.getInstance().musicDiscSoundInstances.add(cir.getReturnValue());
     }
 }

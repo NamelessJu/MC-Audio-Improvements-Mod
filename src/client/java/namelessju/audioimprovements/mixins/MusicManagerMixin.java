@@ -155,7 +155,7 @@ public abstract class MusicManagerMixin implements MusicManagerMixinAccessor
     @Unique
     private void audioImprovements$updateSoundVolume()
     {
-        minecraft.getSoundManager().updateSourceVolume(SoundSource.MUSIC, 1f);
+        minecraft.getSoundManager().updateCategoryVolume(SoundSource.MUSIC, 1f);
     }
     
     @Unique

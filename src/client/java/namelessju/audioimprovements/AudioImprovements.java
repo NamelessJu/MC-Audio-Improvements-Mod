@@ -7,7 +7,7 @@ import namelessju.audioimprovements.mixinaccessors.SoundChannelMixinAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.openal.AL10;
@@ -39,7 +39,7 @@ public abstract class AudioImprovements
     public boolean skipNextListenerDopplerVelocityUpdate = true;
     public final Set<Channel> musicBlockChannels = Collections.newSetFromMap(new WeakHashMap<>());
     public float musicVolumeMultiplier = 1f;
-    public @Nullable ResourceLocation lastPlayedMusic = null;
+    public @Nullable Identifier lastPlayedMusic = null;
     public final Set<SoundInstance> musicDiscSoundInstances = Collections.newSetFromMap(new WeakHashMap<>());
     
     
@@ -80,9 +80,6 @@ public abstract class AudioImprovements
     
     public float getAttenuationMultiplier(@Nullable SoundChannelType type)
     {
-        // NOTE: this only applies to sounds that have already started playing
-        // because the server doesn't send the sound to a player if the distance
-        // between them is larger than the original attenuation distance
         if (type == SoundChannelType.MUSIC_DISC)
         {
             float value = config.musicDiscDistanceMultiplier.getValue();
@@ -94,7 +91,7 @@ public abstract class AudioImprovements
     
     public boolean shouldFadeMusic()
     {
-        Vec3 listenerPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Vec3 listenerPos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
         for (Channel channel : musicBlockChannels)
         {
             if (!channel.playing()) continue;
@@ -119,9 +116,9 @@ public abstract class AudioImprovements
     
     public int getSoundSpeed(SoundInstance soundInstance)
     {
-        if ("minecraft".equals(soundInstance.getLocation().getNamespace()))
+        if ("minecraft".equals(soundInstance.getIdentifier().getNamespace()))
         {
-            int value = switch (soundInstance.getLocation().getPath())
+            int value = switch (soundInstance.getIdentifier().getPath())
             {
                 case "entity.lightning_bolt.impact",
                      "entity.lightning_bolt.thunder" -> config.soundSpeedThunder.getValue();

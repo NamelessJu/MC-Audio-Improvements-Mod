@@ -25,15 +25,15 @@ public class ConfigImpl extends Config
     
     // Music Clash Prevention
     public final BooleanEntry fadeMusicWhenMusicDiscPlaying
-        = new BooleanEntry(this, "fadeMusicWhenMusicDiscPlaying", true)
+        = new BooleanEntry(this, "fadeMusicWhenMusicDiscPlaying", false)
         .withTooltip();
     public final BooleanEntry fadeMusicWhenNoteBlockPlaying
-        = new BooleanEntry(this, "fadeMusicWhenNoteBlockPlaying", true)
+        = new BooleanEntry(this, "fadeMusicWhenNoteBlockPlaying", false)
         .withTooltip();
     public final IntegerEntry musicFadeOutTicks
-        = new IntegerEntry(this, "musicFadeOutTicks", 40, 0, 200);
+        = new IntegerEntry(this, "musicFadeOutTicks", 0, 0, 200);
     public final IntegerEntry musicFadeInTicks
-        = new IntegerEntry(this, "musicFadeInTicks", 100, 0, 200);
+        = new IntegerEntry(this, "musicFadeInTicks", 0, 0, 200);
     
     // Music Discs
     public final FloatEntry musicDiscDistanceMultiplier
@@ -58,10 +58,10 @@ public class ConfigImpl extends Config
     
     // Sound Speed Simulation
     public final IntegerEntry soundSpeedThunder
-        = new IntegerEntry(this, "soundSpeedThunder", 100, 0, 343)
+        = new IntegerEntry(this, "soundSpeedThunder", 0, 0, 343)
         .withTooltip();
     public final IntegerEntry soundSpeedExplosions
-        = new IntegerEntry(this, "soundSpeedExplosions", 100, 0, 343)
+        = new IntegerEntry(this, "soundSpeedExplosions", 0, 0, 343)
         .withTooltip();
     public final IntegerEntry soundSpeedOther
         = new IntegerEntry(this, "soundSpeedOther", 0, 0, 343)
@@ -69,7 +69,7 @@ public class ConfigImpl extends Config
     
     // Doppler effect
     public final FloatEntry dopplerEffectIntensity
-        = new FloatEntry(this, "dopplerEffectIntensity", 1f, 0f, 5f)
+        = new FloatEntry(this, "dopplerEffectIntensity", 0f, 0f, 5f)
         .withTooltip();
     
     // Stereo Spatialization Fix

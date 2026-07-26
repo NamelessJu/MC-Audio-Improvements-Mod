@@ -11,7 +11,7 @@ import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,6 +31,9 @@ public abstract class SoundEngineMixin
 {
     @Shadow @Final
     private Map<SoundInstance, Integer> queuedSounds;
+
+    @Shadow @Final
+    private Object2FloatMap<SoundSource> gainBySource;
     
     @Inject(method = "loadLibrary",
         at = @At(
@@ -55,7 +58,7 @@ public abstract class SoundEngineMixin
         ),
         cancellable = true
     )
-    private void audioImprovements$beforePlay(SoundInstance soundInstance, CallbackInfo ci)
+    private void audioImprovements$beforePlay(SoundInstance soundInstance, CallbackInfoReturnable<SoundEngine.PlayResult> cir)
     {
         if (soundInstance.isRelative()) return;
         
@@ -65,14 +68,15 @@ public abstract class SoundEngineMixin
         if (queuedSounds.containsKey(soundInstance)) return;
         
         int delay = Mth.floor(
-            Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().distanceTo(
+            Minecraft.getInstance().gameRenderer.getMainCamera().position().distanceTo(
                 new Vec3(soundInstance.getX(), soundInstance.getY(), soundInstance.getZ())
             )
             * 1f/soundSpeed * 20f
         );
         if (delay == 0) return;
         playDelayed(soundInstance, delay);
-        ci.cancel();
+        cir.setReturnValue(SoundEngine.PlayResult.NOT_STARTED);
+        cir.cancel();
     }
     
     @Redirect(
@@ -100,7 +104,7 @@ public abstract class SoundEngineMixin
             else
             {
                 
-                String soundPath = soundInstance.getLocation().getPath().toLowerCase(Locale.ROOT);
+                String soundPath = soundInstance.getIdentifier().getPath().toLowerCase(Locale.ROOT);
                 if (soundPath.contains("note_block") || soundPath.contains("noteblock"))
                 {
                     channelMixinAccessor.audioImprovements$setSoundType(SoundChannelType.NOTE_BLOCK);
@@ -165,7 +169,7 @@ public abstract class SoundEngineMixin
             float volumeMultiplier = AudioImprovements.getInstance().musicVolumeMultiplier;
             if (volumeMultiplier != 1f)
             {
-                float sourceVolume = this.getVolume(soundSource);
+                float sourceVolume = gainBySource.getOrDefault(soundSource, 0f);
                 // Note: very tiny non-zero min value to stop this Minecraft
                 // version from automatically stopping the sound completely
                 cir.setReturnValue(Mth.clamp(baseVolume * sourceVolume * volumeMultiplier, 0.00001f, 1f));
@@ -188,7 +192,4 @@ public abstract class SoundEngineMixin
     
     @Shadow
     public abstract void playDelayed(SoundInstance soundInstance, int i);
-    
-    @Shadow
-    protected abstract float getVolume(@Nullable SoundSource soundSource);
 }

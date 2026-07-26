@@ -2,7 +2,6 @@ package namelessju.audioimprovements.gui.screens.abstracts;
 
 import namelessju.audioimprovements.AudioImprovements;
 import namelessju.audioimprovements.gui.components.WidgetFactory;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -38,16 +37,6 @@ public abstract class BaseScreen extends Screen
         this.parentScreen = parentScreen;
         this.translationMenuId = translationMenuId;
     }
-    
-    @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
-    {
-        this.renderBackground(guiGraphics);
-        renderBehindWidgets(guiGraphics, mouseX, mouseY, partialTicks);
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-    }
-    
-    protected void renderBehindWidgets(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {}
     
     @SuppressWarnings("DataFlowIssue")
     @Override

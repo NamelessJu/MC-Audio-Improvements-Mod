@@ -19,30 +19,22 @@ import java.util.List;
 public class GuiList extends ContainerObjectSelectionList<GuiList.Entry>
 {
     private final Screen screen;
-    private final int headerHeight;
-    private final int footerHeight;
-    
+    private final HeaderAndFooterLayout layout;
+
     public GuiList(Minecraft minecraft, Screen screen, HeaderAndFooterLayout layout)
     {
-        this(minecraft, screen, layout.getHeaderHeight(), layout.getFooterHeight());
-    }
-    
-    public GuiList(Minecraft minecraft, Screen screen, int headerHeight, int footerHeight)
-    {
-        super(minecraft, 0, 0, 0, 0, 25);
+        super(minecraft, 0, 0, 0, 25);
         this.screen = screen;
-        this.headerHeight = headerHeight;
-        this.footerHeight = footerHeight;
+        this.layout = layout;
         updateSize();
         this.centerListVertically = false;
     }
-    
+
     public void updateSize()
     {
-        this.updateSize(screen.width, screen.height, headerHeight, screen.height - footerHeight);
-        this.setScrollAmount(getScrollAmount());
+        this.updateSize(screen.width, layout);
     }
-    
+
     public void addFullWidth(@NotNull AbstractWidget widget)
     {
         widget.setWidth(getRowWidth());
@@ -50,7 +42,7 @@ public class GuiList extends ContainerObjectSelectionList<GuiList.Entry>
         entry.yOffset = widget.getY();
         addEntry(entry);
     }
-    
+
     public void addTwoColumns(@NotNull AbstractWidget widgetLeft, @Nullable AbstractWidget widgetRight)
     {
         List<AbstractWidget> widgetList;
@@ -63,56 +55,51 @@ public class GuiList extends ContainerObjectSelectionList<GuiList.Entry>
         else widgetList = List.of(widgetLeft);
         addEntry(new Entry(widgetList, screen));
     }
-    
+
     public void addSection(Component component)
     {
-        addFullWidth(new StringWidget(0, 25/2 - 9/2 - 1, 0, 9, component, minecraft.font).alignCenter());
+        addFullWidth(new StringWidget(0, 25/2 - 9/2 - 1, 0, 9, component, minecraft.font));
     }
-    
+
     @Override
     public int getRowWidth()
     {
         return 310;
     }
-    
-    @Override
-    protected int getScrollbarPosition()
-    {
-        return super.getScrollbarPosition() + 32;
-    }
-    
+
     public static class Entry extends ContainerObjectSelectionList.Entry<Entry>
     {
         protected final List<AbstractWidget> children;
         private final Screen screen;
         public int yOffset = 0;
-        
+
         public Entry(List<AbstractWidget> children, Screen screen)
         {
             this.children = ImmutableList.copyOf(children);
             this.screen = screen;
         }
-        
+
         @Override
         public @NotNull List<? extends GuiEventListener> children()
         {
             return children;
         }
-        
+
         @Override
         public @NotNull List<? extends NarratableEntry> narratables()
         {
             return children;
         }
-        
+
         @Override
-        public void render(GuiGraphics guiGraphics, int i, int j, int k, int l, int m, int n, int o, boolean bl, float f)
+        public void renderContent(GuiGraphics guiGraphics, int index, int y, boolean selected, float partialTick)
         {
             int x = this.screen.width / 2 - 155;
+            int entryY = getY();
             for (AbstractWidget abstractWidget : this.children)
             {
-                abstractWidget.setPosition(x, j + yOffset);
-                abstractWidget.render(guiGraphics, n, o, f);
+                abstractWidget.setPosition(x, entryY + yOffset);
+                abstractWidget.render(guiGraphics, index, y, partialTick);
                 x += abstractWidget.getWidth() + 10;
             }
         }
