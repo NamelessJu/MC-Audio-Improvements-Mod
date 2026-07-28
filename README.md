@@ -1,6 +1,8 @@
-# Audio Improvements - Fabric 1.21.11 Port
+# Audio Improvements — Fabric 1.21.11
 
-This is a **community-maintained port** of [NamelessJu's Audio Improvements Mod](https://github.com/NamelessJu/MC-Audio-Improvements-Mod) from Minecraft **1.20.1 → 1.21.11** (Fabric).
+This is a **community-maintained port** of [NamelessJu's Audio Improvements Mod](https://github.com/NamelessJu/MC-Audio-Improvements-Mod) for Minecraft 1.21.11 (Fabric).
+
+> Looking for the latest version? See the [`26.1.2-fabric` branch](https://github.com/usernamelocker/audio-improvements-fork) for Minecraft 26.1.2.
 
 A client-side Minecraft mod that improves various audio systems.
 
@@ -12,11 +14,11 @@ A client-side Minecraft mod that improves various audio systems.
 - **Mono Audio Controls** — per-category toggle for downmixing sounds to mono
 - **Music Frequency Control** — customize how often background music plays
 - **Stereo Spatialization Fix** — fixes incorrect stereo panning
-- **Customizable Music Disc Range** — adjust the audible range of jukeboxes
+- **Customizable Music Disc Range** — adjust the audible range of jukeboxes (supports global range)
 
 ## Changes from Original v1.3.2
 
-This port updates all code to work with Minecraft 1.21.11's refactored rendering and audio systems. Default config values are set to **off** for features that change gameplay behavior:
+Default config values are set to **off** for features that change gameplay behavior:
 
 | Setting | Original Default | Port Default |
 |---|---|---|
