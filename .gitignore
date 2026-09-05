@@ -1,34 +1,58 @@
-# General
-logs/
-run/
+.env
+.gradle
+.kotlin
+.cache/
 build/
-.settings/
-.gradle/
-*.log
-*.lnk
-/*.txt
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Eclipse
-eclipse/
-bin/
-*.launch
-.settings/
-.metadata/
-.classpath
-.project
+run/
 
-# IntelliJ
-out/
-classes/
-*.ipr
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
 *.iws
 *.iml
-.idea/
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
-# VS Code
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
 .vscode/
 
-# System files
-[Dd]esktop.ini
-Thumbs.db
+### Mac OS ###
 .DS_Store
+
+### Jetbrains ###
+.idea/*
+!.idea/icon.png
+!.idea/externalDependencies.xml
+!.idea/icon.svg
+
+!.idea/runConfigurations
+.idea/runConfigurations/*
+!.idea/runConfigurations/Run_Active_Client.xml
+!.idea/runConfigurations/Run_Active_Server.xml

@@ -1,0 +1,93 @@
+loomx.loom_version="1.17-SNAPSHOT"
+
+
+mod.id = "audio_improvements"
+mod.name = "Audio Improvements"
+mod.group = "namelessju"
+mod.version = "2.0"
+mod.channel_tag = ""
+mod.description = "A client-side mod for some audio system improvements!"
+mod.authors = ["NamelessJu"]
+mod.contributors = []
+mod.inception_year = "2026"
+mod.license.name = "GPL-3.0-or-later"
+mod.license.url = "https://www.gnu.org/licenses/gpl-3.0.html"
+mod.license.dist = "repo"
+mod.sources_url = "https://github.com/NamelessJu/MC-Audio-Improvements-Mod/"
+mod.homepage_url = "https://modrinth.com/mod/audio-improvements/"
+mod.issues_url = "https://github.com/NamelessJu/MC-Audio-Improvements-Mod/issues"
+mod.discord_url = ""
+mod.environment = "client_only"
+[[mod.pom.developers]]
+id = "namelessju"
+name = "NamelessJu"
+url = "https://github.com/NamelessJu"
+
+[fabric]
+deps.fabric-loader = "0.19.2"
+
+[fabric."1.20.1"]
+deps.minecraft = "1.20.1"
+deps.fabric-api = "0.92.12+1.20.1"
+deps.modmenu = "7.2.2"
+deps.yacl = "3.6.6+1.20.1-fabric"
+deps.vinurl = "2.1.1+1.20.1-fabric"
+
+[fabric."1.21.1"]
+deps.minecraft = "1.21.1"
+deps.fabric-api = "0.116.7+1.21.1"
+deps.modmenu = "11.0.4"
+deps.yacl = "3.8.2+1.21.1-fabric"
+deps.vinurl = "2.6.0+1.21.1-fabric"
+
+[fabric."1.21.11"]
+deps.minecraft = "1.21.11"
+deps.fabric-api = "0.141.6+1.21.11"
+deps.modmenu = "17.0.0"
+deps.yacl = "3.8.2+1.21.11-fabric"
+deps.vinurl = "2.6.0+1.21.11-fabric"
+
+[fabric."26.1.2"]
+publish.additionalVersions = ["26.1.1", "26.1"]
+deps.minecraft = "26.1.2"
+deps.fabric-api = "0.146.1+26.1.2"
+deps.modmenu = "18.0.0"
+deps.yacl = "3.9.6+26.1-fabric"
+deps.vinurl = "2.6.0+26.1-fabric"
+
+[fabric."26.2"]
+deps.minecraft = "26.2"
+deps.fabric-api = "0.158.0+26.2"
+deps.modmenu = "20.0.1"
+deps.yacl = "3.9.6+26.2-fabric"
+deps.vinurl = "2.6.0+26.2-fabric"
+
+[neoforge]
+
+[neoforge."1.21.1"]
+deps.minecraft = "1.21.1"
+deps.neoforge = "21.1.213"
+deps.yacl = "3.8.2+1.21.1-neoforge"
+
+[neoforge."1.21.11"]
+deps.minecraft = "1.21.11"
+deps.neoforge = "21.11.45"
+deps.yacl = "3.8.2+1.21.11-neoforge"
+
+[neoforge."26.1.2"]
+publish.additionalVersions = ["26.1.1", "26.1"]
+deps.minecraft = "26.1.2"
+deps.neoforge = "26.1.2.29-beta"
+deps.yacl = "3.9.6+26.1-neoforge"
+
+[neoforge."26.2"]
+deps.minecraft = "26.2"
+deps.neoforge = "26.2.0.75"
+deps.yacl = "3.9.6+26.2-neoforge"
+
+[forge]
+
+[forge."1.20.1"]
+deps.minecraft = "1.20.1"
+deps.forge = "47.4.10"
+deps.yacl = "3.6.6+1.20.1-forge"

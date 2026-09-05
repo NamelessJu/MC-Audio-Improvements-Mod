@@ -1,0 +1,10 @@
+{
+  "required": false,
+  "package": "namelessju.audio_improvements.platform.fabric.mixin.vinurl",
+  "compatibilityLevel": "${java}",
+  "minVersion": "0.8",
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

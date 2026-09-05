@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "namelessju.audio_improvements.mixin",
+  //? if forge {
+  /*"refmap": "audio_improvements.mixins.refmap.json",
+  *///? }
+  "compatibilityLevel": "${java}",
+  "minVersion": "0.8",
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
