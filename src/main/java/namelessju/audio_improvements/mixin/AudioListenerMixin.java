@@ -1,7 +1,7 @@
 package namelessju.audio_improvements.mixin;
 
 import com.mojang.blaze3d.audio.Listener;
-//? if >1.21.1 {
+//? if >1.20.1 {
 import com.mojang.blaze3d.audio.ListenerTransform;
 //? }
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
 public abstract class AudioListenerMixin
 {
-    //? if <=1.21.1 {
+    //? if <=1.20.1 {
     /*@Shadow
     private Vec3 position;
     *///? } else {
@@ -30,7 +30,7 @@ public abstract class AudioListenerMixin
     @Unique
     private int audioImprovements$skipCounter = 0;
 
-    //? if <=1.21.1 {
+    //? if <=1.20.1 {
     /*@Inject(method = "setListenerPosition", at = @At("HEAD"))
     private void beforeSetTransform(Vec3 position, CallbackInfo ci)
     {

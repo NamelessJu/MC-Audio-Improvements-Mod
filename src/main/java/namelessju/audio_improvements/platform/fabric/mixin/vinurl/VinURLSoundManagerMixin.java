@@ -17,7 +17,11 @@ public class VinURLSoundManagerMixin
         method = "playSound",
         at = @At(
             value = "INVOKE",
+            //? if >=1.21.11 {
             target = "Lnet/minecraft/client/sounds/SoundManager;play(Lnet/minecraft/client/resources/sounds/SoundInstance;)Lnet/minecraft/client/sounds/SoundEngine$PlayResult;"
+            //? } else {
+            /*target = "Lnet/minecraft/client/sounds/SoundManager;play(Lnet/minecraft/client/resources/sounds/SoundInstance;)V"
+            *///? }
         ),
         index = 0
     )
