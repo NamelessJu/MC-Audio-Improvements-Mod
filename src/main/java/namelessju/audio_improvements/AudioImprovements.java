@@ -13,6 +13,7 @@ import org.lwjgl.openal.AL11;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,11 +50,13 @@ public abstract class AudioImprovements
     }
 
 
+    private final Path configFilePath;
     private boolean isLogarithmicVolumeControlInstalled = false;
 
     public AudioImprovements()
     {
         instance = this;
+        configFilePath = getConfigDir().resolve("audioImprovementsConfig.json");
     }
 
     protected abstract Path getConfigDir();
@@ -61,6 +64,14 @@ public abstract class AudioImprovements
 
 	protected final void init()
     {
+        File configFile = configFilePath.toFile();
+        File oldConfigFile = AudioImprovements.instance().getConfigDir().resolve("audioimprovements.json").toFile();
+        if (!configFile.exists() && oldConfigFile.exists())
+        {
+            boolean success = oldConfigFile.renameTo(configFile);
+            if (success) LOGGER.info("Renamed legacy config file!");
+            else LOGGER.error("Failed to rename legacy config file!");
+        }
         Config.HANDLER.load();
 
         isLogarithmicVolumeControlInstalled = isModLoaded("logarithmic-volume-control");
@@ -71,6 +82,11 @@ public abstract class AudioImprovements
     protected final void registerCommands(CommandDispatcher<?> dispatcher)
     {
         AudioImprovementsCommand.register(dispatcher);
+    }
+
+    public final Path getConfigFilePath()
+    {
+        return configFilePath;
     }
 
     public boolean isLogarithmicVolumeControlInstalled()

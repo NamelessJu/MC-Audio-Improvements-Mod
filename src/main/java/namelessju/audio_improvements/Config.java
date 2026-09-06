@@ -32,7 +32,7 @@ public class Config
     public static ConfigClassHandler<Config> HANDLER = ConfigClassHandler.createBuilder(Config.class)
             .id(AudioImprovements.id("config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
-                .setPath(AudioImprovements.instance().getConfigDir().resolve("audioImprovementsConfig.json"))
+                .setPath(AudioImprovements.instance().getConfigFilePath())
                 .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
                 .build()
             )
