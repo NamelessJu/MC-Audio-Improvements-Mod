@@ -14,6 +14,7 @@ multiple mod loader & Minecraft version combinations in one project:
 
 | Minecraft | Fabric | NeoForge | Forge |
 |-----------|--------|----------|-------|
+| 26.3      | ✅     | ✅       | ❌    |
 | 26.2      | ✅     | ✅       | ❌    |
 | 26.1.x    | ✅     | ✅       | ❌    |
 | 1.21.11   | ✅     | ✅       | ❌    |
@@ -37,7 +38,7 @@ The according run directory can be found under ./versions/{mcversion}-{loader}/r
 
 ## License
 
-This mod is licensed under the [GNU General Public License v3.0 or later](LICENSE).  
+This mod is licensed under the [GNU Lesser General Public License v3.0 or later](LICENSE).  
 The license applies to all files under ./src and any jar files built from that code!
 
 ## Credits
