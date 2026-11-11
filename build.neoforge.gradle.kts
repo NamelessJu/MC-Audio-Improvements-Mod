@@ -17,10 +17,10 @@ platform {
 	loader = "neoforge"
 	dependencies {
 		required("minecraft") {
-			forgeLikeVersionRange = prop("deps.minecraft")
+			forgeLikeVersionRange = if (sc.current.version == "26.3") "[26.3]" else prop("deps.minecraft")
 		}
 		required("neoforge") {
-			forgeLikeVersionRange.set("[1,)")
+			forgeLikeVersionRange.set(if (sc.current.version == "26.3") "[26.3.0.102,26.4)" else "[1,)")
 		}
         required("yet_another_config_lib_v3") {
             forgeLikeVersionRange = "[${prop("deps.yacl")},)"
